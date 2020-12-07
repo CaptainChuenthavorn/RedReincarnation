@@ -145,7 +145,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="animationEnemy.cpp" />
+    <ClCompile Include="animationEnemyDeath.cpp" />
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Bitmap.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemyDeath.cpp" />
+    <ClCompile Include="Flag.cpp" />
+    <ClCompile Include="hitbox.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RestartMenu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="animationEnemy.h" />
+    <ClInclude Include="animationEnemyDeath.h" />
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="Bitmap.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemyDeath.h" />
+    <ClInclude Include="Flag.h" />
+    <ClInclude Include="hitbox.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Platform.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="RestartMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
