@@ -69,7 +69,13 @@ int main()
 	chest_soundeffect.loadFromFile("asset/Sound/Chest_soundEffect.WAV");
 	chestSound.setBuffer(chest_soundeffect);
 
-
+	
+	sf::SoundBuffer BGSound_;
+	sf::Sound BGSound;
+	BGSound_.loadFromFile("asset/Sound/soundEpic.WAV");
+	BGSound.setBuffer(BGSound_);
+	//BGSound.play();
+	//BGSound.setLoop(true);
 	////////// State Count //////////
 	int state = 5;
 
@@ -282,6 +288,16 @@ int main()
 			{
 			case sf::Event::KeyReleased:
 				switch (evnt.key.code) {
+				case sf::Event::KeyReleased:
+					switch (evnt.key.code) {
+					case sf::Keyboard::Escape:
+						window.close();
+						break;
+					}
+					break;
+
+
+
 				case sf::Keyboard::W:
 					menu.MoveUp();
 					break;
@@ -307,7 +323,9 @@ int main()
 			case sf::Event::Closed:
 				window.close();
 				break;
+			
 			}
+
 		}
 		window.clear();
 		window.draw(background);
@@ -324,6 +342,8 @@ int main()
 
 	while (1)
 	{
+		BGSound.play();
+		BGSound.setLoop(true);
 	jumperState:
 		//status state
 		//bool boxstate2_1 = false;
@@ -4505,6 +4525,7 @@ int main()
 				//state restart
 		if (state == 66)
 		{
+
 			//////////    Manu State    //////////
 			//sf::RenderWindow window(sf::VideoMode(1080, 720), "Red Journey");
 			RestartMenu Remenu(window.getSize().x, window.getSize().y);
@@ -4520,7 +4541,7 @@ int main()
 
 			//sound 
 			died.play();
-
+			BGSound.stop();
 			while (window.isOpen())
 			{
 				sf::Event evnt;
@@ -4555,6 +4576,7 @@ int main()
 						window.close();
 						goto closedWindow;
 						break;
+
 					}
 
 				}
