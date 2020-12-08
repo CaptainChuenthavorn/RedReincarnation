@@ -16,6 +16,8 @@ public:
 	bool attack = false;
 	bool dead = false;
 	bool shieldBlocking = false;
+	bool hurt = false;
+
 
 	sf::Clock cl;
 	float anicl;

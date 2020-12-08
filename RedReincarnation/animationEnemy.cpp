@@ -89,7 +89,7 @@ void animationEnemy::Update(int row, float deltaTime, bool faceRight)
 		}
 	}
 
-	if (shieldBlocking == true)
+	if (hurt == true)
 	{
 		currentImage.y = row;
 		totalTime += deltaTime;
@@ -97,7 +97,7 @@ void animationEnemy::Update(int row, float deltaTime, bool faceRight)
 		if (totalTime >= switchTime) { // for smooth frame
 			totalTime -= switchTime;
 			currentImage.x++;
-			if (currentImage.x >= 1) {
+			if (currentImage.x >= 1 ) {
 				currentImage.x = 0;
 			}
 		}
@@ -112,4 +112,5 @@ void animationEnemy::Update(int row, float deltaTime, bool faceRight)
 			uvRect.width = -abs(uvRect.width);
 		}
 	}
+
 }

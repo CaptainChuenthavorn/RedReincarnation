@@ -46,7 +46,7 @@ public:
 	float immortalCl;
 	bool immortal = false;
 	float immortalTime;
-	int currentHp;
+	int currentHp=3;
 
 	animation animation;
 	unsigned int row;
@@ -62,5 +62,10 @@ public:
 	sf::RectangleShape hitboxSize;
 
 	bool stickWall = false;
+
+	bool hurt=false;
+	float hitTime = 0;// stop watch update animation hurt
+	float hitCooldown = 1.0;//stopwatch until animation hurt complete
+	float totaltime;//stop watch animation
 
 };

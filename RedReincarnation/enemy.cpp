@@ -81,10 +81,31 @@ void enemy::Update(float deltaTime)
 		else
 			faceRight = false;//หันหน้าไปทางซ้าย
 	}
+
+	totaltime += deltaTime;
+	//hurt
+	
+		
+		if (hurt == true)
+		{
+			velocity.x = 0.0f;
+			row = 5;
+			animationEnemy.hurt = true;
+			hitTime += deltaTime;
+			if (hitTime > hitCooldown)
+			{
+				hitTime = 0;
+				hurt = false;
+			}
+		}
+	
+
+
+
 	animationEnemy.Update(row, deltaTime, faceRight);
 	body.setTextureRect(animationEnemy.uvRect);
 	body.move(velocity * deltaTime);//Before : velocity * deltaTime
-	//hurt bound 
+	//hurt bound
 	bound.setTextureRect(animationEnemy.uvRect);
 	bound.setPosition(body.getPosition());//Before : velocity * deltaTime
 }
@@ -146,9 +167,7 @@ void enemy::setHp(int dmg)
 
 void enemy::setDie(bool isDie)
 {
-
 	this->isDieBool = isDie;
-
 }
 
 void enemy::setDieSpawn(bool isDieSpawn)

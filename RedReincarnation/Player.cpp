@@ -43,7 +43,7 @@ void Player::Update(float deltaTime)
 	if (animation.attack1 == false)
 		animation.idle = true;
 
-	printf(animation.drawSword ? "  true  " : "   false  ");
+	//printf(animation.drawSword ? "  true  " : "   false  ");
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 
@@ -206,6 +206,22 @@ void Player::Update(float deltaTime)
 		animation.finishShoot = false;
 	}
 
+	totaltime += deltaTime;
+	//hurt
+
+
+	if (hurt == true)
+	{
+		
+		row = 5;
+		animation.hurt = true;
+		hitTime += deltaTime;
+		if (hitTime > hitCooldown)
+		{
+			hitTime = 0;
+			hurt = false;
+		}
+	}
 
 
 
@@ -268,7 +284,6 @@ void Player::OnCollision(sf::Vector2f direction)
 {
 	//printf("direction y =%f", direction.y);
 	//printf("    %s\n", canJump ? "true" : "false");
-	printf(" direction x:  %f  ", direction.x);
 	if (direction.x < 0.0f) {
 		//collision on the left
 		velocity.x = 0.0f;

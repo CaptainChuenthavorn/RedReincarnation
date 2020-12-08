@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+﻿#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <vector>
@@ -72,7 +72,7 @@ int main()
 
 	}
 	sf::Clock chestTime;
-	float chestT = 0.0f; //�繵���纤�� ���Ңͧ bullet
+	float chestT = 0.0f; //à»ç¹µÑÇà¡çº¤èÒ àÇÅÒ¢Í§ bullet
 	sf::Clock spawnItem;
 	float spawnItemf = 0.0f;
 
@@ -117,7 +117,7 @@ int main()
 	sf::Texture hpPotionTexture;
 	if (!hpPotionTexture.loadFromFile("asset/object/PotionRed.png"));
 	sf::Clock hpPotionTime;
-	float potionT = 0.0f; //�繵���纤�� ���Ңͧ bullet
+	float potionT = 0.0f; //à»ç¹µÑÇà¡çº¤èÒ àÇÅÒ¢Í§ bullet
 	/*sf::Clock spawnItem;
 	float spawnItemf = 0.0f;
 	srand(time(NULL));*/
@@ -165,7 +165,7 @@ int main()
 
 	}
 	sf::Clock bullTime;
-	float bull = 0.0f; //�繵���纤�� ���Ңͧ bullet
+	float bull = 0.0f; //à»ç¹µÑÇà¡çº¤èÒ àÇÅÒ¢Í§ bullet
 	//////////////////////////////////////////////////////////////////////
 
 	sf::RectangleShape bound;
@@ -207,13 +207,6 @@ int main()
 	enemyTexture.loadFromFile("asset/16x16 knight 4 v3.PNG");
 	enemy enemy1(&enemyTexture, sf::Vector2u(8, 8), 0.2f, 100.0f, 500.0f, 500.0f);
 
-
-	//load enemy texture//
-	enemyBlack.loadFromFile("asset/enemy/black.PNG");//16x16 knight 3 v3
-
-	enemyGolden.loadFromFile("asset/enemy/16x16 knight 1 v3.PNG");
-
-	enemyGrey.loadFromFile("asset/enemy/16x16 knight 2 v3.PNG");
 
 	//initialize platform
 	std::vector<Platform> platforms;
@@ -491,12 +484,7 @@ int main()
 			sf::Texture KnightEnemy;
 			sf::Texture GreyEnemy;
 			sf::Texture GoldenEnemy;
-			//load enemy texture//
-			enemyBlack.loadFromFile("asset/enemy/black.PNG");//16x16 knight 3 v3
-
-			enemyGolden.loadFromFile("asset/enemy/16x16 knight 1 v3.PNG");
-
-			enemyGrey.loadFromFile("asset/enemy/16x16 knight 2 v3.PNG");
+		
 
 			//initialize platform
 			std::vector<Platform> platforms;
@@ -1273,18 +1261,7 @@ int main()
 			if (!flag_texture.loadFromFile("asset/flag.png")) {}
 			flag.push_back(Flag(&flag_texture, sf::Vector2f(6000, 200), sf::Vector2f(0, 1)));
 
-			/********************************** Princess ********************************/
-		
-			sf::Texture Princess_Texture;
-	
-			//load Princess texture//
-			Princess_Texture.loadFromFile("asset/princess/princess2.PNG");
-
 			
-			//pushback enemies map03
-			Princess princess1(&Princess_Texture, sf::Vector2u(12, 1), 0.2f, 200.0f, 700.0f, 350.0f);
-			
-			sf::Vector2f princess1Temp;
 
 
 			/********************************** Chest ********************************/
@@ -1395,7 +1372,7 @@ int main()
 			float ranHpY = ranHeartPotionY / 10.f;
 
 			//////////////////////////score////////////////////
-			//int scoreCount = 0;
+			scoreCount = 0;
 			sf::Font font;
 			if (font.loadFromFile("asset/FSEX300.ttf")) {}
 			sf::Text scoreText;
@@ -1467,7 +1444,7 @@ int main()
 			if (!ammoTexture.loadFromFile("asset/bullet.png"));
 			ammo1.setScale(0.15f, 0.15f);
 			ammo1.setTexture(ammoTexture);
-
+			ammo = 5;
 			//////////////////////////////////////////////////////////////////////
 
 			std::vector<Background> backgrounds;
@@ -1576,7 +1553,7 @@ int main()
 
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 
@@ -1629,8 +1606,17 @@ int main()
 				{
 					switch (evnt.type)
 					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+						case sf::Keyboard::Escape:
+							window.close();
+							goto closedWindow;
+							break;
+						}
+						break;
 					case sf::Event::Closed:
 						window.close();
+						goto closedWindow;
 						break;
 					case sf::Event::Resized:
 						ResizeView(window, view);
@@ -1643,10 +1629,10 @@ int main()
 
 				//RunTime = RuntimeClock.getElapsedTime();
 				RunTime = RuntimeClock.getElapsedTime();
-				showtime << RunTime.asSeconds();
-				lbltTime.setString(showtime.str());
-				showtime.str("");
-				lbltTime.setPosition(view.getCenter().x + 200, view.getCenter().y - 210);
+				//showtime << RunTime.asSeconds();
+				//lbltTime.setString(showtime.str());
+				//showtime.str("");
+				//lbltTime.setPosition(view.getCenter().x + 200, view.getCenter().y - 210);
 
 
 				//printf("   player hp : %d   ", player.hpPlayer);
@@ -1759,7 +1745,7 @@ int main()
 						hpPotion.erase(hpPotion.begin() + i);
 					}
 				}
-				////////////////////////////////////////Princess collision action////////////////////////////////////////////
+			
 				
 
 
@@ -1867,7 +1853,7 @@ int main()
 				enemyDeath2.Update(deltaTime);
 				enemyDeath3.Update(deltaTime);
 
-				princess1.Update(deltaTime);
+			
 
 
 				hitboxMid.Update(0, 0, player.GetPosition());
@@ -1984,19 +1970,7 @@ int main()
 						if (block0.getCollider().CheckCollision(flag.GetCollider(), direction, 1.0f))
 							flag.OnCollision(direction);
 				}
-				//Princess
-						////BitMap Collision WITH Princess ////
-				for (Bitmap& block0 : block0)
-					if (block0.getCollider().CheckCollision(princess1.GetCollider(), direction, 1.0f))
-						princess1.OncollisionPrincess(direction);
-				////BitMapEnemy Collision WITH ENEMY ////
-				for (Bitmap& blockEnemy : blockEnemy)
-					if (blockEnemy.getCollider().CheckCollision(princess1.GetCollider(), direction, 1.0f))
-					{
-						princess1.OncollisionPrincess(direction);
-						princess1.velocity.x = -princess1.velocity.x;
-						princess1.velocity.x = 0.0f;
-					}
+				
 
 
 				//IMMORTAL CLOCK//
@@ -2010,7 +1984,7 @@ int main()
 					player.velocity.x = 0.0f;
 					enemy1.velocity.x = 0.0f;
 					player.currentHp = player.hpPlayer;
-					player.immortalTime = 1.0f;
+					player.immortalTime = 0.6f;
 					if (player.immortal == false)
 					{
 						/*player.hpLock = 1;*/
@@ -2076,7 +2050,7 @@ int main()
 						//COLLISION ENEMY WITH PLAYER HURT HP--//
 				if (enemy3.GetColliderHitbox().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
 				{
-
+				
 					enemy3.OncollisionEnemy(direction);
 					player.velocity.x = 0.0f;
 					enemy3.velocity.x = 0.0f;
@@ -2084,6 +2058,8 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						//player.hurt = true;
+						
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -2132,7 +2108,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-
+								
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -2147,11 +2123,13 @@ int main()
 
 									if (enemyHurtClock <= 200.0)
 										enemy1.animationEnemy.shieldBlocking == true;
-
-									enemy1.SetPositionBounce(20.0);
+									//hurt//
+									enemy1.hurt = true;
+									////////
+									//enemy1.SetPositionBounce(20.0);
 									enemy1.hp--;
 									printf(" Hit enemy hp :%d    \n", enemy1.hp);
-									enemy1.SetPositionBounce(40.0);
+									//enemy1.SetPositionBounce(40.0);
 									if (enemy1.hp <= 0)
 									{
 										//std::cout << "Score " << std::endl;
@@ -2165,7 +2143,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-
+								
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -2176,7 +2154,10 @@ int main()
 									scoreCount += 10;
 									enemy2.hp--;
 									printf(" Hit enemy hp :%d    \n", enemy2.hp);
-									enemy2.SetPositionBounce(40.0);
+									//enemy2.SetPositionBounce(40.0);
+									//hurt//
+									enemy2.hurt = true;
+									////////
 									if (enemy2.hp <= 0)
 									{
 										//std::cout << "Score " << std::endl;
@@ -2192,7 +2173,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-
+								
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -2203,7 +2184,10 @@ int main()
 									scoreCount += 10;
 									enemy3.hp--;
 									printf(" Hit enemy hp :%d    \n", enemy3.hp);
-									enemy3.SetPositionBounce(40.0);
+									//enemy3.SetPositionBounce(40.0);
+									//hurt//
+									enemy3.hurt = true;
+									////////
 									if (enemy3.hp <= 0)
 									{
 										//std::cout << "Score " << std::endl;
@@ -2327,38 +2311,48 @@ int main()
 					}
 				}
 
+				printf("   player hp : %d   ", player.hpPlayer);
+				printf("   player Current hp : %d    ", player.currentHp);
+				printf("  player x: %f y: %f  ", player.GetPosition().x, player.GetPosition().y);
+				printf(" velocity.x : %f   ", player.velocity.x);
 
+				////////////////////////////////////////Flag collision action////////////////////////////////////////////
+				for (Flag& flag : flag) {
+					//printf("Update!\n");
+					flag.Update(deltaTime);
+				}
 
+				Collider tempFlag = player.GetColliderHitbox();
+				for (Flag& flag : flag)
+				{
+					if (flag.GetCollider().CheckCollisionAttack(tempFlag)) {
 
+						flag.setDestroy(true);
+						printf(" Hit the flag !!\n");
+						state = 3;
+						goto jumperState;
+					}
+				}
+
+				
 
 				//COLLISION BULLET WITH ENEMY01//
 				Collider temp = enemy1.GetColliderHitbox();
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp)) {
-
+						enemy1.hurt = true;
 						//printf("Bullet Destroy!!\n");
 						bullet.setDestroy(true);
 						enemy1.setHp(bullet.GetDmg());
-						enemy1.SetPositionBounce(40.0);
-						enemy1.bound.setFillColor(sf::Color::Red);
+						//enemy1.SetPositionBounce(40.0);
+						//enemy1.bound.setFillColor(sf::Color::Red);
 						printf(" Hit Gun enemy hp : %d  \n", enemy1.hp);
 
 					}
 				}
 
-				printf("  player x: %f y: %f  ", player.GetPosition().x, player.GetPosition().y);
-				//princess Collide with PLayer ---->>> End game
-				if (princess1.GetCollider().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
-				{
-					princess1.OncollisionPrincess(direction);
-					player.velocity.x = 0.0f;
-					princess1.velocity.x = 0.0f;
-					state = 1;
-					goto jumperState;
-				}
-
-
+				
 
 				//enemy1 set die
 				if (enemy1.GetHp() <= 0)
@@ -2416,15 +2410,17 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp2)) {
-
+						//hurt//
+						enemy2.hurt = true;
+						////////
 						bullet.setDestroy(true);
 						enemy2.setHp(bullet.GetDmg());
-						enemy2.SetPositionBounce(40.0);
-						enemy2.body.setFillColor(sf::Color::Red);
+						//enemy2.SetPositionBounce(40.0);
+						
 						printf(" Hit Gun enemy hp : %d  \n", enemy2.hp);
 					}
 				}
-
+			
 				//enemy set die
 
 				if (enemy2.GetHp() <= 0)
@@ -2442,7 +2438,7 @@ int main()
 					if (faceRightEnemy2Count == 0)
 					{
 						faceRightEnemy2Temp = enemy2.faceRight;
-						faceRightEnemy2Count = 99;
+						faceRightEnemy2Count = 99; // 99 เก็บตัวแปร 1ค่าทันทีแล้วเลิกเก็บ
 					}
 
 					printf("\n  We are in animation dead enemy ");
@@ -2476,10 +2472,12 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp3)) {
-
+						//hurt//
+						enemy3.hurt = true;
+						////////
 						bullet.setDestroy(true);
 						enemy3.setHp(bullet.GetDmg());
-						enemy3.SetPositionBounce(40.0);
+						//enemy3.SetPositionBounce(40.0);
 						printf(" Hit Gun enemy hp : %d  \n", enemy3.hp);
 					}
 				}
@@ -2678,9 +2676,6 @@ int main()
 					enemyDeath3.Draw(window);
 				}
 
-				////////////////////////////////////////////////draw Princess////////////////////////////////////////////////
-				princess1.Draw(window);
-
 
 				////////////////////////////////////////////////draw platforms////////////////////////////////////////////////
 				//for (Platform& platform : platforms)
@@ -2730,6 +2725,19 @@ int main()
 
 		if (state == 3)
 		{
+
+			/********************************** Princess ********************************/
+
+			sf::Texture Princess_Texture;
+
+			//load Princess texture//
+			Princess_Texture.loadFromFile("asset/princess/princess2.PNG");
+			//pushback enemies map03
+			Princess princess1(&Princess_Texture, sf::Vector2u(12, 1), 0.2f, 200.0f, 11383.0f, 350.0f);//y floor: 635
+
+			sf::Vector2f princess1Temp;
+
+
 
 			///////////////////////////////////////Item/////////////////////////////////
 			/********************************** Chest ********************************/
@@ -3145,8 +3153,17 @@ int main()
 				{
 					switch (evnt.type)
 					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+						case sf::Keyboard::Escape:
+							window.close();
+							goto closedWindow;
+							break;
+						}
+						break;
 					case sf::Event::Closed:
 						window.close();
+						goto closedWindow;
 						break;
 					case sf::Event::Resized:
 						ResizeView(window, view);
@@ -3155,7 +3172,7 @@ int main()
 
 					}
 				}
-
+				
 
 				//////////////////////////////////////////////////Item in loop//////////////////////////////////////////
 
@@ -3381,6 +3398,9 @@ int main()
 				enemy3.Update(deltaTime);
 				enemy4.Update(deltaTime);
 				boss.Update(deltaTime);
+				princess1.Update(deltaTime);
+
+
 
 				hitboxMid.Update(0, 0, player.GetPosition());
 				hitboxLeft.Update(-28, 0, player.GetPosition());
@@ -3640,6 +3660,21 @@ int main()
 						spawnTime.restart();
 					}
 				}
+				printf("   player hp : %d   ", player.hpPlayer);
+				printf("   player Current hp : %d    ", player.currentHp);
+				printf("   player x: %f y: %f  ", player.GetPosition().x, player.GetPosition().y);
+				//princess Collide with PLayer ---->>> End game
+				if (princess1.GetCollider().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
+				{
+					princess1.OncollisionPrincess(direction);
+					player.velocity.x = 0.0f;
+					princess1.velocity.x = 0.0f;
+					state = 1;
+					goto jumperState;
+				}
+
+
+
 				////////////////////////////////////////////////player collider with platform////////////////////////////////////////////////
 
 				////BitMap Collision WITH PLAYER ////
@@ -3713,6 +3748,29 @@ int main()
 						boss.velocity.x = -boss.velocity.x;
 						boss.velocity.x = 0.0f;
 					}
+
+
+				//Princess
+						////BitMap Collision WITH Princess ////
+				for (Bitmap& block0 : block0)
+					if (block0.getCollider().CheckCollision(princess1.GetCollider(), direction, 1.0f))
+						princess1.OncollisionPrincess(direction);
+				////BitMapEnemy Collision WITH ENEMY ////
+				for (Bitmap& blockEnemy : blockEnemy)
+					if (blockEnemy.getCollider().CheckCollision(princess1.GetCollider(), direction, 1.0f))
+					{
+						princess1.OncollisionPrincess(direction);
+						princess1.velocity.x = -princess1.velocity.x;
+						princess1.velocity.x = 0.0f;
+					}
+
+
+			
+
+
+
+
+
 
 				////BitMap Collision WITH CHEST ////
 				for (Bitmap& block0 : block0)
@@ -4395,6 +4453,11 @@ int main()
 				window.draw(staminaBar);
 				window.draw(BulletCount);
 
+
+
+				////////////////////////////////////////////////draw Princess////////////////////////////////////////////////
+				princess1.Draw(window);
+
 				//itemCooldown += time.asSeconds();
 
 
@@ -4451,6 +4514,7 @@ int main()
 
 					case sf::Event::Closed:
 						window.close();
+						goto closedWindow;
 						break;
 					}
 
@@ -4475,5 +4539,7 @@ int main()
 		}// if state (66)
 
 	}// while (1)
+closedWindow:
+
 	return 0;
 }

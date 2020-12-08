@@ -15,9 +15,6 @@ Princess::Princess(sf::Texture* texture, sf::Vector2u imageCount, float switchTi
 	body.setPosition(PosX, PosY);
 	body.setTexture(texture);
 	body.setScale(1.4f, 1.4f);
-
-
-	
 }
 
 Princess::~Princess()
