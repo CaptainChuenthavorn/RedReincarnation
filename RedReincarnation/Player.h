@@ -68,4 +68,12 @@ public:
 	float hitCooldown = 1.0;//stopwatch until animation hurt complete
 	float totaltime;//stop watch animation
 
+
+
+	////////// Sound //////////
+	sf::SoundBuffer sword_soundeffect;
+	sf::Sound swordAttack;
+	
+	sf::SoundBuffer arrow_soundeffect;
+	sf::Sound arrowAttack;
 };

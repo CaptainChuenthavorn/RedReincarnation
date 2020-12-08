@@ -24,6 +24,15 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 	hitbox.setOrigin(hitbox.getSize() / 2.0f);
 	hitbox.setPosition(body.getPosition());
 	hitbox.setFillColor(sf::Color::Blue);
+
+
+
+	////////// Sound //////////
+	sword_soundeffect.loadFromFile("asset/Sound/swordSlash_soundEffect.WAV");
+	swordAttack.setBuffer(sword_soundeffect);
+
+	arrow_soundeffect.loadFromFile("asset/Sound/arrowShoot_soundEffect.WAV");
+	arrowAttack.setBuffer(arrow_soundeffect);
 }
 Player::~Player() {
 
@@ -170,19 +179,20 @@ void Player::Update(float deltaTime)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 	{
-
+		
 
 		animation.currentImage.y = 5;
 		animation.run = false;
 		animation.idle = false;
 		animation.jump = false;
 		animation.attack1 = true;
-
+		//sound//
+		swordAttack.play();
 	}
 	//Bullet
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
 	{
-
+		
 
 		animation.currentImage.y = 10;
 
@@ -191,7 +201,8 @@ void Player::Update(float deltaTime)
 		animation.jump = false;
 		animation.attack1 = false;
 		animation.shoot = true;
-
+		//sound//
+		arrowAttack.play();
 	}
 
 	if (animation.finishAttack1 == true)

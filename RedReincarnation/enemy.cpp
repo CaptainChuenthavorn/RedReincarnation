@@ -29,6 +29,8 @@ enemy::enemy(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, fl
 	hitbox.setOrigin(hitbox.getSize() / 2.0f);
 	hitbox.setPosition(body.getPosition().x, body.getPosition().y);
 	hitbox.setFillColor(sf::Color::Yellow);
+
+
 }
 
 enemy::~enemy()
@@ -88,6 +90,7 @@ void enemy::Update(float deltaTime)
 		
 		if (hurt == true)
 		{
+			
 			velocity.x = 0.0f;
 			row = 5;
 			animationEnemy.hurt = true;

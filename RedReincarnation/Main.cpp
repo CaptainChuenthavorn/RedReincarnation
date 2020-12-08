@@ -1,4 +1,5 @@
 ﻿#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <stdio.h>
 #include <vector>
@@ -41,9 +42,32 @@ void ResizeView(const sf::RenderWindow& window, sf::View& view) {
 
 int main()
 {
-	////////// Endgame status //////////
-	int pokeball = 0;
-	int flower = 0;
+	////////// Sound //////////
+	sf::SoundBuffer died_soundeffect;
+	died_soundeffect.loadFromFile("asset/Sound/died_soundEffect_.WAV");
+	sf::Sound died;
+	died.setBuffer(died_soundeffect);
+
+
+	sf::SoundBuffer hurt_soundeffect;
+	sf::Sound hurtSound;
+	hurt_soundeffect.loadFromFile("asset/Sound/enemyhit_soundEffect.WAV");
+	hurtSound.setBuffer(hurt_soundeffect);
+
+	sf::SoundBuffer crash_soundeffect;
+	sf::Sound crashSound;
+	crash_soundeffect.loadFromFile("asset/Sound/playerhit_soundEffect.WAV");
+	crashSound.setBuffer(crash_soundeffect);
+
+	sf::SoundBuffer potion_soundeffect;
+	sf::Sound potionSound;
+	potion_soundeffect.loadFromFile("asset/Sound/potion_soundEffect.WAV");
+	potionSound.setBuffer(potion_soundeffect);
+
+	sf::SoundBuffer chest_soundeffect;
+	sf::Sound chestSound;
+	chest_soundeffect.loadFromFile("asset/Sound/Chest_soundEffect.WAV");
+	chestSound.setBuffer(chest_soundeffect);
 
 
 	////////// State Count //////////
@@ -693,7 +717,7 @@ int main()
 				for (Item& chest : chest)
 				{
 					if (chest.GetCollider().CheckCollisionAttack(tempChest)) {
-
+						chestSound.play();
 						chest.setDestroy(true);
 						printf(" Hit the chest !!\n");
 						ammo += rand() % 3 + 3;
@@ -753,7 +777,7 @@ int main()
 				for (Item& hpPotion : hpPotion)
 				{
 					if (hpPotion.GetCollider().CheckCollisionAttack(tempPotion)) {
-
+						potionSound.play();
 						hpPotion.setDestroy(true);
 						printf(" Hit the Potion !!\n");
 						hpPotion.setSpawn(true);
@@ -1051,11 +1075,14 @@ int main()
 						player.immortal = false;
 
 					}
+
+					crashSound.play();
 				}
 
 				////////////////////////////////////////////////attack method//////////////////////////////////////////////
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::K) && player.attackState == 0)
 				{
+					
 					player.velocity.x = 0;
 					player.attackState = 1;
 
@@ -1063,7 +1090,7 @@ int main()
 					player.start = clock();
 
 				}
-
+				
 				////////////////////////////////////////////////attack method cooldown ////////////////////////////////////////////////
 
 				if (player.attackState > 0)
@@ -1077,7 +1104,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-
+								
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -1654,7 +1681,7 @@ int main()
 				for (Item& chest : chest)
 				{
 					if (chest.GetCollider().CheckCollisionAttack(tempChest)) {
-
+						chestSound.play();
 						chest.setDestroy(true);
 						printf(" Hit the chest !!\n");
 						ammo += rand() % 3 + 3;
@@ -1704,7 +1731,7 @@ int main()
 				for (Item& hpPotion : hpPotion)
 				{
 					if (hpPotion.GetCollider().CheckCollisionAttack(tempPotion)) {
-
+						potionSound.play();
 						hpPotion.setDestroy(true);
 						printf(" Hit the Potion !!\n");
 						hpPotion.setSpawn(true);
@@ -1980,6 +2007,7 @@ int main()
 				//COLLISION ENEMY WITH PLAYER HURT HP--//
 				if (enemy1.GetColliderHitbox().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
 				{
+					
 					enemy1.OncollisionEnemy(direction);
 					player.velocity.x = 0.0f;
 					enemy1.velocity.x = 0.0f;
@@ -1987,6 +2015,7 @@ int main()
 					player.immortalTime = 0.6f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -2009,12 +2038,13 @@ int main()
 						player.immortal = false;
 
 					}
+				
 				}
 				//enemy2
 						//COLLISION ENEMY WITH PLAYER HURT HP--//
 				if (enemy2.GetColliderHitbox().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
 				{
-
+					
 					enemy2.OncollisionEnemy(direction);
 					player.velocity.x = 0.0f;
 					enemy2.velocity.x = 0.0f;
@@ -2022,6 +2052,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -2045,12 +2076,13 @@ int main()
 						player.immortal = false;
 
 					}
+					
 				}
 				//enemy3
 						//COLLISION ENEMY WITH PLAYER HURT HP--//
 				if (enemy3.GetColliderHitbox().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
 				{
-				
+					
 					enemy3.OncollisionEnemy(direction);
 					player.velocity.x = 0.0f;
 					enemy3.velocity.x = 0.0f;
@@ -2058,6 +2090,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						//player.hurt = true;
 						
 						/*player.hpLock = 1;*/
@@ -2083,6 +2116,7 @@ int main()
 						player.immortal = false;
 
 					}
+					
 				}
 
 
@@ -2108,7 +2142,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-								
+								hurtSound.play();
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -2143,7 +2177,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-								
+								hurtSound.play();
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -2173,7 +2207,7 @@ int main()
 
 							if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
 							{
-								
+								hurtSound.play();
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
@@ -2311,10 +2345,10 @@ int main()
 					}
 				}
 
-				printf("   player hp : %d   ", player.hpPlayer);
-				printf("   player Current hp : %d    ", player.currentHp);
+				//printf("   player hp : %d   ", player.hpPlayer);
+				//printf("   player Current hp : %d    ", player.currentHp);
 				printf("  player x: %f y: %f  ", player.GetPosition().x, player.GetPosition().y);
-				printf(" velocity.x : %f   ", player.velocity.x);
+				//printf(" velocity.x : %f   ", player.velocity.x);
 
 				////////////////////////////////////////Flag collision action////////////////////////////////////////////
 				for (Flag& flag : flag) {
@@ -2348,7 +2382,7 @@ int main()
 						//enemy1.SetPositionBounce(40.0);
 						//enemy1.bound.setFillColor(sf::Color::Red);
 						printf(" Hit Gun enemy hp : %d  \n", enemy1.hp);
-
+						hurtSound.play();
 					}
 				}
 
@@ -2416,7 +2450,7 @@ int main()
 						bullet.setDestroy(true);
 						enemy2.setHp(bullet.GetDmg());
 						//enemy2.SetPositionBounce(40.0);
-						
+						hurtSound.play();
 						printf(" Hit Gun enemy hp : %d  \n", enemy2.hp);
 					}
 				}
@@ -2479,6 +2513,7 @@ int main()
 						enemy3.setHp(bullet.GetDmg());
 						//enemy3.SetPositionBounce(40.0);
 						printf(" Hit Gun enemy hp : %d  \n", enemy3.hp);
+						hurtSound.play();
 					}
 				}
 				//enemy set die
@@ -3188,7 +3223,7 @@ int main()
 				for (Item& chest : chest)
 				{
 					if (chest.GetCollider().CheckCollisionAttack(tempChest)) {
-
+						chestSound.play();
 						chest.setDestroy(true);
 						printf(" Hit the chest !!\n");
 						ammo += rand() % 3 + 3;
@@ -3238,7 +3273,7 @@ int main()
 				for (Item& hpPotion : hpPotion)
 				{
 					if (hpPotion.GetCollider().CheckCollisionAttack(tempPotion)) {
-
+						potionSound.play();
 						hpPotion.setDestroy(true);
 						printf(" Hit the Potion !!\n");
 						hpPotion.setSpawn(true);
@@ -4482,6 +4517,10 @@ int main()
 			backgroundRestart.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
 			backgroundRestart.scale(0.09, 0.09);
 			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f);
+
+			//sound 
+			died.play();
+
 			while (window.isOpen())
 			{
 				sf::Event evnt;

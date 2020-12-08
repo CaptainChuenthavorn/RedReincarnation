@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 #include "Collider.h"
 #include "animationEnemy.h"
 #include "Player.h"
@@ -57,4 +58,6 @@ public:
 	float hitTime=0;// stop watch update animation hurt
 	float hitCooldown=0.6;//stopwatch until animation hurt complete
 	float totaltime;//stop watch animation
+	
+	
 };
