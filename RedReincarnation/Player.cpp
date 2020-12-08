@@ -1,8 +1,9 @@
 #include "Player.h"
 Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, float speed, float jumpHeight) :
 	animation(texture, imageCount, switchTime)/* to get animation class*/
-
 {
+
+	stickWall = false;
 	//player
 	this->speed = speed;
 	this->jumpHeight = jumpHeight;
@@ -23,11 +24,6 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 	hitbox.setOrigin(hitbox.getSize() / 2.0f);
 	hitbox.setPosition(body.getPosition());
 	hitbox.setFillColor(sf::Color::Blue);
-
-
-
-
-
 }
 Player::~Player() {
 
@@ -46,44 +42,75 @@ void Player::Update(float deltaTime)
 	velocity.x *= 0.8f; // 0.2 slow 0.8 fast 
 	if (animation.attack1 == false)
 		animation.idle = true;
+
+	printf(animation.drawSword ? "  true  " : "   false  ");
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 
-		row = 1;
-		velocity.x -= speed;
-		/*if (animation.drawSword == true) {
+		//row = 1;
+		//velocity.x -= speed;
+		///*if (animation.drawSword == true) {
+		//	animation.run = false;
+		//}
+		//else {
+		//	animation.run = true;
+		//}*/
+		//animation.run = true;
+		//animation.idle = false;
+		//animation.jump = false;
+		//animation.attack1 = false;
+
+		if (stickWall == true)
+		{
+			animation.currentImage.y = 4;
+			animation.drawSword = true;//stickWall
 			animation.run = false;
+			animation.idle = false;
+			animation.jump = false;
+			animation.attack1 = false;
 		}
-		else {
+		else if(stickWall == false)
+		{
+			row = 1;
+			
+			/*if (animation.drawSword == true) {
+				animation.run = false;
+			}
+			else {
+				animation.run = true;
+			}*/
 			animation.run = true;
-		}*/
-		animation.run = true;
-		animation.idle = false;
-		animation.jump = false;
-		animation.attack1 = false;
+			animation.idle = false;
+			animation.jump = false;
+			animation.attack1 = false;
+		}
+		velocity.x -= speed;
 
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 
-
+		if (stickWall == true)
+		{
+			animation.currentImage.y = 4;
+			animation.drawSword = true;//stickWall
+			animation.run = false;
+			animation.idle = false;
+			animation.jump = false;
+			animation.attack1 = false;
+		}
+		else if (stickWall == false)
+		{
 		row = 2;
-		velocity.x += speed;
 		animation.run = true;
 		animation.idle = false;
 		animation.jump = false;
 		animation.attack1 = false;
-
+		}
+		velocity.x += speed;
 	}
 	printf("row  %d\n", row);
-	if (row == 4)
-	{
-		animation.drawSword = true;//stickWall
-		animation.run = false;
-		animation.idle = false;
-		animation.jump = false;
-		animation.attack1 = false;
-	}
+	
 
 	//printf("%.2f\n", stamina);
 	if (stamina > 50) {
@@ -93,7 +120,9 @@ void Player::Update(float deltaTime)
 
 			stamina -= 1;
 			row = 1;
-			velocity.x -= speed + 0.1;
+			//velocity.x -= speed + 0.003125;
+			//velocity.x -= speed + 0.5;
+			velocity.x -= speed * 0.52;
 			animation.run = true;
 			animation.idle = false;
 			animation.jump = false;
@@ -105,7 +134,9 @@ void Player::Update(float deltaTime)
 
 			stamina -= 1;
 			row = 2;
-			velocity.x += speed + 0.1;
+			//velocity.x += speed + 0.003125;
+			//velocity.x += speed + 0.5;
+			velocity.x += speed *0.52;
 			animation.run = true;
 			animation.idle = false;
 			animation.jump = false;
@@ -237,24 +268,24 @@ void Player::OnCollision(sf::Vector2f direction)
 {
 	//printf("direction y =%f", direction.y);
 	//printf("    %s\n", canJump ? "true" : "false");
+	printf(" direction x:  %f  ", direction.x);
 	if (direction.x < 0.0f) {
 		//collision on the left
 		velocity.x = 0.0f;
 		canJump = true;
-		row = 4;
+		stickWall = true;
 	}
 	else if (direction.x > 0.0f) {
 		//collision on the right
 		velocity.x = 0.0f;
 		canJump = true;
-		row = 4;
-		animation.drawSword = true;//stickWall
-		animation.run = false;
-		animation.idle = false;
-		animation.jump = false;
-		animation.attack1 = false;
-
+		stickWall = true;
 	}
+	else {
+		//not collide with anything
+		stickWall = false;
+	}
+
 	if (direction.y <= 0.0f) {
 		//collision on the bottom
 		velocity.y = 0.0f;

@@ -38,8 +38,8 @@ public:
 	sf::RectangleShape body;
 	sf::RectangleShape attack;
 
-	float maxstamina = 1500;
-	float stamina = 1500;
+	float maxstamina = 1000;
+	float stamina = 1000;
 
 
 	sf::Clock imCl;
@@ -61,6 +61,6 @@ public:
 	sf::RectangleShape hitboxAttack;
 	sf::RectangleShape hitboxSize;
 
-
+	bool stickWall = false;
 
 };

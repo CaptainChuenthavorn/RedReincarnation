@@ -198,7 +198,7 @@ void animation::Update(int row, float deltaTime, bool faceRight)
 
 			if (currentImage.x >= 2) {
 
-				currentImage.x = 1;
+				currentImage.x = 0;
 				//finishJump = true;
 			}
 

@@ -30,6 +30,8 @@
 #include "Boss.h"
 #include "enemyDeath.h"
 #include "animationEnemyDeath.h"
+#include "Princess.h"
+#include "animationPrincess.h"
 static const float VIEW_HEIGHT = 720.0f;
 static const float VIEW_WIDTH = 1080.0f;
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
@@ -1271,6 +1273,20 @@ int main()
 			if (!flag_texture.loadFromFile("asset/flag.png")) {}
 			flag.push_back(Flag(&flag_texture, sf::Vector2f(6000, 200), sf::Vector2f(0, 1)));
 
+			/********************************** Princess ********************************/
+		
+			sf::Texture Princess_Texture;
+	
+			//load Princess texture//
+			Princess_Texture.loadFromFile("asset/princess/princess2.PNG");
+
+			
+			//pushback enemies map03
+			Princess princess1(&Princess_Texture, sf::Vector2u(12, 1), 0.2f, 200.0f, 700.0f, 350.0f);
+			
+			sf::Vector2f princess1Temp;
+
+
 			/********************************** Chest ********************************/
 			std::vector<Item> chest;
 			sf::Texture chest_texture;
@@ -1417,6 +1433,9 @@ int main()
 			sf::Vector2f enemyDeath1Temp;
 			sf::Vector2f enemyDeath2Temp;
 			sf::Vector2f enemyDeath3Temp;
+
+
+
 
 
 
@@ -1740,23 +1759,10 @@ int main()
 						hpPotion.erase(hpPotion.begin() + i);
 					}
 				}
-				////////////////////////////////////////Flag collision action////////////////////////////////////////////
-				for (Flag& flag : flag) {
-					//printf("Update!\n");
-					flag.Update(deltaTime);
-				}
+				////////////////////////////////////////Princess collision action////////////////////////////////////////////
+				
 
-				Collider tempFlag = player.GetColliderHitbox();
-				for (Flag& flag : flag)
-				{
-					if (flag.GetCollider().CheckCollisionAttack(tempFlag)) {
 
-						flag.setDestroy(true);
-						printf(" Hit the flag !!\n");
-						state = 3;
-						goto jumperState;
-					}
-				}
 				//restart//
 				if (player.hpPlayer <= 0)
 				{
@@ -1861,6 +1867,7 @@ int main()
 				enemyDeath2.Update(deltaTime);
 				enemyDeath3.Update(deltaTime);
 
+				princess1.Update(deltaTime);
 
 
 				hitboxMid.Update(0, 0, player.GetPosition());
@@ -1977,6 +1984,21 @@ int main()
 						if (block0.getCollider().CheckCollision(flag.GetCollider(), direction, 1.0f))
 							flag.OnCollision(direction);
 				}
+				//Princess
+						////BitMap Collision WITH Princess ////
+				for (Bitmap& block0 : block0)
+					if (block0.getCollider().CheckCollision(princess1.GetCollider(), direction, 1.0f))
+						princess1.OncollisionPrincess(direction);
+				////BitMapEnemy Collision WITH ENEMY ////
+				for (Bitmap& blockEnemy : blockEnemy)
+					if (blockEnemy.getCollider().CheckCollision(princess1.GetCollider(), direction, 1.0f))
+					{
+						princess1.OncollisionPrincess(direction);
+						princess1.velocity.x = -princess1.velocity.x;
+						princess1.velocity.x = 0.0f;
+					}
+
+
 				//IMMORTAL CLOCK//
 				sf::Clock imCl;
 				float immortalCl;
@@ -2307,6 +2329,8 @@ int main()
 
 
 
+
+
 				//COLLISION BULLET WITH ENEMY01//
 				Collider temp = enemy1.GetColliderHitbox();
 				for (Bullet& bullet : bullet)
@@ -2322,6 +2346,19 @@ int main()
 
 					}
 				}
+
+				printf("  player x: %f y: %f  ", player.GetPosition().x, player.GetPosition().y);
+				//princess Collide with PLayer ---->>> End game
+				if (princess1.GetCollider().CheckCollision(player.GetColliderHitbox(), direction, 1.0f))//1 can slide ,0 can't do anything
+				{
+					princess1.OncollisionPrincess(direction);
+					player.velocity.x = 0.0f;
+					princess1.velocity.x = 0.0f;
+					state = 1;
+					goto jumperState;
+				}
+
+
 
 				//enemy1 set die
 				if (enemy1.GetHp() <= 0)
@@ -2641,6 +2678,9 @@ int main()
 					enemyDeath3.Draw(window);
 				}
 
+				////////////////////////////////////////////////draw Princess////////////////////////////////////////////////
+				princess1.Draw(window);
+
 
 				////////////////////////////////////////////////draw platforms////////////////////////////////////////////////
 				//for (Platform& platform : platforms)
@@ -2665,6 +2705,8 @@ int main()
 
 					flag.Draw(window);
 				}
+			
+
 				window.draw(groundDeath);
 				window.draw(ammo1);
 

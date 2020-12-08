@@ -148,6 +148,7 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="animationEnemy.cpp" />
     <ClCompile Include="animationEnemyDeath.cpp" />
+    <ClCompile Include="animationPrincess.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Boss.cpp" />
@@ -162,12 +163,14 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Princess.cpp" />
     <ClCompile Include="RestartMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
     <ClInclude Include="animationEnemy.h" />
     <ClInclude Include="animationEnemyDeath.h" />
+    <ClInclude Include="animationPrincess.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Boss.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Princess.h" />
     <ClInclude Include="RestartMenu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
