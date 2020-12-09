@@ -52,5 +52,9 @@ public:
 	bool isDieSpawn() { return isDieSpawnBool; }
 	bool isDieSpawnBool;
 
+	bool hurt;
+	float hitTime = 0;// stop watch update animation hurt
+	float hitCooldown = 0.6;//stopwatch until animation hurt complete
+	float totaltime;//stop watch animation
 
 };

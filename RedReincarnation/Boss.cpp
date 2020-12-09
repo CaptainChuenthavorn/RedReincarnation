@@ -73,6 +73,26 @@ void Boss::Update(float deltaTime)
 		else
 			faceRight = false;//หันหน้าไปทางซ้าย
 	}
+
+	totaltime += deltaTime;
+	//hurt
+
+
+	if (hurt == true)
+	{
+
+		velocity.x = 0.0f;
+		row = 5;
+		animationEnemy.hurt = true;
+		hitTime += deltaTime;
+		if (hitTime > hitCooldown)
+		{
+			hitTime = 0;
+			hurt = false;
+		}
+	}
+
+
 	animationEnemy.Update(row, deltaTime, faceRight);
 	body.setTextureRect(animationEnemy.uvRect);
 	body.move(velocity * deltaTime);//Before : velocity * deltaTime

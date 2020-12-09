@@ -33,6 +33,7 @@
 #include "animationEnemyDeath.h"
 #include "Princess.h"
 #include "animationPrincess.h"
+#include "BossDeath.h"
 static const float VIEW_HEIGHT = 720.0f;
 static const float VIEW_WIDTH = 1080.0f;
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
@@ -47,6 +48,26 @@ int main()
 	died_soundeffect.loadFromFile("asset/Sound/died_soundEffect_.WAV");
 	sf::Sound died;
 	died.setBuffer(died_soundeffect);
+
+	sf::SoundBuffer died1_soundeffect;
+	died1_soundeffect.loadFromFile("asset/Sound/enemydied1_soundEffect_.WAV");
+	sf::Sound died1_Sound;
+	died1_Sound.setBuffer(died1_soundeffect);
+
+	sf::SoundBuffer died2_soundeffect;
+	died2_soundeffect.loadFromFile("asset/Sound/enemydied2_soundEffect_.WAV");
+	sf::Sound died2_Sound;
+	died2_Sound.setBuffer(died2_soundeffect);
+
+	sf::SoundBuffer died3_soundeffect;
+	died3_soundeffect.loadFromFile("asset/Sound/enemydied3_soundEffect_.WAV");
+	sf::Sound died3_Sound;
+	died3_Sound.setBuffer(died3_soundeffect);
+
+	sf::SoundBuffer died4_soundeffect;
+	died4_soundeffect.loadFromFile("asset/Sound/enemydied4_soundEffect_.WAV");
+	sf::Sound died4_Sound;
+	died4_Sound.setBuffer(died4_soundeffect);
 
 
 	sf::SoundBuffer hurt_soundeffect;
@@ -288,15 +309,10 @@ int main()
 			{
 			case sf::Event::KeyReleased:
 				switch (evnt.key.code) {
-				case sf::Event::KeyReleased:
-					switch (evnt.key.code) {
-					case sf::Keyboard::Escape:
-						window.close();
-						break;
-					}
+				
+				case sf::Keyboard::Escape:
+					window.close();
 					break;
-
-
 
 				case sf::Keyboard::W:
 					menu.MoveUp();
@@ -308,7 +324,7 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play has been preesed" << std::endl;
-						state = 2;
+						state = 3;
 						checkGameOpen = true;
 						break;
 					case 1:
@@ -2414,7 +2430,7 @@ int main()
 					enemy1.setDie(true);
 					enemyDeath1.setDie(true);
 					faceRightEnemy1Count = 0;
-
+					died1_Sound.play();
 
 				}
 				//bullet disapear//
@@ -2482,6 +2498,7 @@ int main()
 					enemy2.setDie(true);
 					enemyDeath2.setDie(true);
 					faceRightEnemy2Count = 0;
+					died2_Sound.play();
 				}
 
 				if (enemy2.isDie() == true)
@@ -2542,6 +2559,7 @@ int main()
 					enemy3.setDie(true);
 					enemyDeath3.setDie(true);
 					faceRightEnemy3Count = 0;
+					died3_Sound.play();
 				}
 				//bullet disapear//
 				for (int i = 0;i < bullet.size();i++)
@@ -2986,14 +3004,36 @@ int main()
 			//pushback enemies map03
 			enemy enemy1(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 1030.0f, 290.0f);
 			enemy enemy2(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 2354.0f, 500.0f);
-			// enemy3(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 7200.0f, 390.0f);
-			//enemy enemy4(&KnightEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 6190.0f, 270.0f);
-
 			enemy enemy3(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 6190.0f, 270.0f);
 			enemy enemy4(&KnightEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 7200.0f, 390.0f);
 			enemy4.hp = 5;
-			//enemy Boss(&BlackEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 10000.0f, 270.0f);
 			Boss boss(&BlackEnemy, sf::Vector2u(8, 8), 0.2f, 100.0f, 10000.0f, 270.0f);
+
+			enemyDeath enemyDeath1(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 0.0f, 0.0f);
+			enemyDeath enemyDeath2(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 40.0f, 300.0f);
+			enemyDeath enemyDeath3(&GoldenEnemy, sf::Vector2u(8, 8), 0.2f, 0.0f, 0.0f);
+			enemyDeath enemyDeath4(&KnightEnemy, sf::Vector2u(8, 8), 0.2f, 40.0f, 300.0f);
+			BossDeath enemyDeath5(&BlackEnemy, sf::Vector2u(8, 8), 0.2f, 0.0f, 0.0f);//boss
+			
+			sf::Vector2f enemyDeath1Temp;
+			sf::Vector2f enemyDeath2Temp;
+			sf::Vector2f enemyDeath3Temp;
+			sf::Vector2f enemyDeath4Temp;
+			sf::Vector2f enemyDeath5Temp;//boss
+
+			bool faceRightEnemy1Temp = 1;
+			int faceRightEnemy1Count = 1;//ready , finish
+			bool faceRightEnemy2Temp = 1;
+			int faceRightEnemy2Count = 1;//ready , finish
+			bool faceRightEnemy3Temp = 1;
+			int faceRightEnemy3Count = 1;//ready , finish
+			bool faceRightEnemy4Temp = 1;
+			int faceRightEnemy4Count = 1;//ready , finish
+			bool faceRightEnemy5Temp = 1;
+			int faceRightEnemy5Count = 1;//ready , finish
+
+
+
 			//Ground Collide will death platform
 			sf::RectangleShape groundDeath(sf::Vector2f(200000.0f, 25.0f)); //size
 			groundDeath.setPosition(sf::Vector2f(-2000.0f, 1000.0f));//position
@@ -3053,7 +3093,7 @@ int main()
 			sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(VIEW_WIDTH, VIEW_HEIGHT));
 
 			sf::Texture playerTexture;
-			playerTexture.loadFromFile("asset/v2.1/adventurerSheet.PNG");
+			playerTexture.loadFromFile("asset/v2.1/adventurerSheet1.PNG");
 			Player player(&playerTexture, sf::Vector2u(8, 12), 0.1f, 100.0f, 100.0f);
 
 
@@ -3453,6 +3493,12 @@ int main()
 				enemy3.Update(deltaTime);
 				enemy4.Update(deltaTime);
 				boss.Update(deltaTime);
+				enemyDeath1.Update(deltaTime);
+				enemyDeath2.Update(deltaTime);
+				enemyDeath3.Update(deltaTime);
+				enemyDeath4.Update(deltaTime);
+				enemyDeath5.Update(deltaTime);
+
 				princess1.Update(deltaTime);
 
 
@@ -3472,7 +3518,10 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp)) {
-
+						//Hurt//
+						hurtSound.play();
+						enemy1.hurt = true;
+						////////
 						//printf("Bullet Destroy!!\n");
 						bullet.setDestroy(true);
 						enemy1.setHp(bullet.GetDmg());
@@ -3515,6 +3564,9 @@ int main()
 				if (enemy1.GetHp() <= 0)
 				{
 					enemy1.setDie(true);
+					enemyDeath1.setDie(true);
+					faceRightEnemy1Count = 0;
+					died2_Sound.play();
 				}
 				//bullet disapear//
 				for (int i = 0;i < bullet.size();i++)
@@ -3527,17 +3579,30 @@ int main()
 				//printf("player x:%f y: %f\n", player.GetPosition().x, player.GetPosition().y);
 				if (enemy1.isDie() == true)
 				{
-					scoreCount += 100;
-					spawnT = spawnTime.getElapsedTime().asMilliseconds();
-					if (spawnT > 2000.0)
+
+					enemyDeath1Temp = enemy1.GetPosition();
+					enemyDeath1.SetPosition(enemyDeath1Temp);
+
+					if (faceRightEnemy1Count == 0)
 					{
-						printf("Enemy spwan!!\n");
-						enemy1.hp = 3;
-						enemy1.SetPosition(sf::Vector2f(11400.0f, 90.0f));
-						spawnTime.restart();
-						enemy1.setDieSpawn(true);
-						enemy1.setDie(false);
+						faceRightEnemy1Temp = enemy1.faceRight;
+						faceRightEnemy1Count = 99; // 99 เก็บตัวแปร 1ค่าทันทีแล้วเลิกเก็บ
 					}
+
+					printf("\n  We are in animation dead enemy ");
+					enemy1.animationEnemy.dead = true;
+					enemy1.row = 7;
+
+					printf("Enemy spwan!!\n");
+					enemy1.setDie(false);
+					enemy1.setDieSpawn(true);
+
+					scoreCount += 100;
+					enemy1.hp = 3;
+					//enemy2.SetPosition(sf::Vector2f(enemy2.GetPosition()));
+
+					enemy1.SetPosition(sf::Vector2f(11400.0f, 90.0f));
+
 				}
 
 				//Enemy2
@@ -3546,7 +3611,10 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp2)) {
-
+						//Hurt//
+						hurtSound.play();
+						enemy2.hurt = true;
+						////////
 						bullet.setDestroy(true);
 						enemy2.setHp(bullet.GetDmg());
 						printf(" Hit Gun enemy hp : %d  \n", enemy2.hp);
@@ -3555,8 +3623,11 @@ int main()
 				//enemy set die
 				if (enemy2.GetHp() <= 0)
 				{
-					enemy2.animationEnemy.dead = true;
+					//enemy2.animationEnemy.dead = true;
 					enemy2.setDie(true);
+					enemyDeath2.setDie(true);
+					faceRightEnemy2Count = 0;
+					died1_Sound.play();
 				}
 				//bullet disapear//
 				for (int i = 0;i < bullet.size();i++)
@@ -3569,19 +3640,29 @@ int main()
 
 				if (enemy2.isDie() == true)
 				{
+					enemyDeath2Temp = enemy2.GetPosition();
+					enemyDeath2.SetPosition(enemyDeath2Temp);
+
+					if (faceRightEnemy2Count == 0)
+					{
+						faceRightEnemy2Temp = enemy2.faceRight;
+						faceRightEnemy2Count = 99; // 99 เก็บตัวแปร 1ค่าทันทีแล้วเลิกเก็บ
+					}
+
+					printf("\n  We are in animation dead enemy ");
+					enemy2.animationEnemy.dead = true;
+					enemy2.row = 7;
+
+					printf("Enemy spwan!!\n");
+					enemy2.setDie(false);
+					enemy2.setDieSpawn(true);
 
 					scoreCount += 100;
+					enemy2.hp = 3;
+					//enemy2.SetPosition(sf::Vector2f(enemy2.GetPosition()));
 
-					spawnT = spawnTime.getElapsedTime().asMilliseconds();
-					if (spawnT > 2000.0)
-					{
-						printf("Enemy spwan!!\n");
-						enemy2.hp = 3;
-						enemy2.SetPosition(sf::Vector2f(11400.0f, 90.0f));
-						enemy2.setDie(false);
-						enemy2.setDieSpawn(true);
-						spawnTime.restart();
-					}
+					enemy2.SetPosition(sf::Vector2f(11400.0f, 90.0f));
+
 				}
 
 				//Enemy3
@@ -3590,7 +3671,10 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp3)) {
-
+						//Hurt//
+						hurtSound.play();
+						enemy3.hurt = true;
+						////////
 						bullet.setDestroy(true);
 						enemy3.setHp(bullet.GetDmg());
 						printf(" Hit Gun enemy hp : %d  \n", enemy3.hp);
@@ -3599,8 +3683,11 @@ int main()
 				//enemy set die
 				if (enemy3.GetHp() <= 0)
 				{
-					enemy3.animationEnemy.dead = true;
+					//enemy3.animationEnemy.dead = true;
 					enemy3.setDie(true);
+					enemyDeath3.setDie(true);
+					faceRightEnemy3Count = 0;
+					died3_Sound.play();
 				}
 				//bullet disapear//
 				for (int i = 0;i < bullet.size();i++)
@@ -3614,18 +3701,29 @@ int main()
 				if (enemy3.isDie() == true)
 				{
 
-					scoreCount += 100;
+					enemyDeath3Temp = enemy3.GetPosition();
+					enemyDeath3.SetPosition(enemyDeath3Temp);
 
-					spawnT = spawnTime.getElapsedTime().asMilliseconds();
-					if (spawnT > 2000.0)
+					if (faceRightEnemy3Count == 0)
 					{
-						printf("Enemy spwan!!\n");
-						enemy3.hp = 3;
-						enemy3.SetPosition(sf::Vector2f(11400.0f, 90.0f));
-						enemy3.setDie(false);
-						enemy3.setDieSpawn(true);
-						spawnTime.restart();
+						faceRightEnemy3Temp = enemy2.faceRight;
+						faceRightEnemy3Count = 99; // 99 เก็บตัวแปร 1ค่าทันทีแล้วเลิกเก็บ
 					}
+
+					printf("\n  We are in animation dead enemy ");
+					enemy3.animationEnemy.dead = true;
+					enemy3.row = 7;
+
+					printf("Enemy spwan!!\n");
+					enemy3.setDie(false);
+					enemy3.setDieSpawn(true);
+
+					scoreCount += 100;
+					enemy3.hp = 3;
+					//enemy2.SetPosition(sf::Vector2f(enemy2.GetPosition()));
+
+					enemy3.SetPosition(sf::Vector2f(11400.0f, 90.0f));
+
 				}
 				//Enemy4
 						//COLLISION BULLET WITH ENEMY02//
@@ -3633,7 +3731,10 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(temp4)) {
-
+						//Hurt//
+						hurtSound.play();
+						enemy4.hurt = true;
+						////////
 						bullet.setDestroy(true);
 						enemy4.setHp(bullet.GetDmg());
 						printf(" Hit Gun enemy hp : %d  \n", enemy4.hp);
@@ -3642,8 +3743,11 @@ int main()
 				//enemy set die
 				if (enemy4.GetHp() <= 0)
 				{
-					enemy4.animationEnemy.dead = true;
+					//enemy4.animationEnemy.dead = true;
 					enemy4.setDie(true);
+					enemyDeath4.setDie(true);
+					faceRightEnemy4Count = 0;
+					died1_Sound.play();
 				}
 				//bullet disapear//
 				for (int i = 0;i < bullet.size();i++)
@@ -3657,18 +3761,29 @@ int main()
 				if (enemy4.isDie() == true)
 				{
 
-					scoreCount += 100;
+					enemyDeath4Temp = enemy4.GetPosition();
+					enemyDeath4.SetPosition(enemyDeath4Temp);
 
-					spawnT = spawnTime.getElapsedTime().asMilliseconds();
-					if (spawnT > 2000.0)
+					if (faceRightEnemy4Count == 0)
 					{
-						printf("Enemy spwan!!\n");
-						enemy4.hp = 5;
-						enemy4.SetPosition(sf::Vector2f(11400.0f, 90.0f));
-						enemy4.setDie(false);
-						enemy4.setDieSpawn(true);
-						spawnTime.restart();
+						faceRightEnemy4Temp = enemy2.faceRight;
+						faceRightEnemy4Count = 99; // 99 เก็บตัวแปร 1ค่าทันทีแล้วเลิกเก็บ
 					}
+
+					printf("\n  We are in animation dead enemy ");
+					enemy4.animationEnemy.dead = true;
+					enemy4.row = 7;
+
+					printf("Enemy spwan!!\n");
+					enemy4.setDie(false);
+					enemy4.setDieSpawn(true);
+
+					scoreCount += 200;
+					enemy4.hp = 3;
+					//enemy2.SetPosition(sf::Vector2f(enemy2.GetPosition()));
+
+					enemy4.SetPosition(sf::Vector2f(11400.0f, 90.0f));
+
 				}
 
 
@@ -3678,7 +3793,10 @@ int main()
 				for (Bullet& bullet : bullet)
 				{
 					if (bullet.GetCollider().CheckCollisionAttack(tempBoss)) {
-
+						//Hurt//
+						hurtSound.play();
+						boss.hurt = true;
+						////////
 						bullet.setDestroy(true);
 						boss.setHp(bullet.GetDmg());
 						printf(" Hit Gun enemy hp : %d  \n", boss.hp);
@@ -3687,8 +3805,11 @@ int main()
 				//enemy set die
 				if (boss.GetHp() <= 0)
 				{
-					boss.animationEnemy.dead = true;
+					//boss.animationEnemy.dead = true;
 					boss.setDie(true);
+					enemyDeath5.setDie(true);
+					faceRightEnemy5Count = 0;
+					died4_Sound.play();
 				}
 				//bullet disapear//
 				for (int i = 0;i < bullet.size();i++)
@@ -3701,19 +3822,29 @@ int main()
 
 				if (boss.isDie() == true)
 				{
+					enemyDeath5Temp = boss.GetPosition();
+					enemyDeath5.SetPosition(enemyDeath5Temp);
 
-					scoreCount += 100;
-
-					spawnT = spawnTime.getElapsedTime().asMilliseconds();
-					if (spawnT > 2000.0)
+					if (faceRightEnemy5Count == 0)
 					{
-						printf("Enemy spwan!!\n");
-						boss.hp = 3;
-						boss.SetPosition(sf::Vector2f(11400.0f, 90.0f));
-						boss.setDie(false);
-						boss.setDieSpawn(true);
-						spawnTime.restart();
+						faceRightEnemy5Temp = boss.faceRight;
+						faceRightEnemy5Count = 99; // 99 เก็บตัวแปร 1ค่าทันทีแล้วเลิกเก็บ
 					}
+
+					printf("\n  We are in animation dead enemy ");
+					boss.animationEnemy.dead = true;
+					boss.row = 7;
+
+					printf("Enemy spwan!!\n");
+					boss.setDie(false);
+					boss.setDieSpawn(true);
+
+					scoreCount += 500;
+					boss.hp = 10;
+					//enemy2.SetPosition(sf::Vector2f(enemy2.GetPosition()));
+
+					boss.SetPosition(sf::Vector2f(11400.0f, 90.0f));
+
 				}
 				printf("   player hp : %d   ", player.hpPlayer);
 				printf("   player Current hp : %d    ", player.currentHp);
@@ -4053,6 +4184,10 @@ int main()
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
+									//Hurt//
+									hurtSound.play();
+									enemy1.hurt = true;
+									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
 									player.attackState = 2;
@@ -4078,6 +4213,10 @@ int main()
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
+									//Hurt//
+									hurtSound.play();
+									enemy2.hurt = true;
+									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
 									player.attackState = 2;
@@ -4105,6 +4244,10 @@ int main()
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
+									//Hurt//
+									hurtSound.play();
+									enemy3.hurt = true;
+									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
 									player.attackState = 2;
@@ -4131,6 +4274,10 @@ int main()
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
+									//Hurt//
+									hurtSound.play();
+									enemy4.hurt = true;
+									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
 									player.attackState = 2;
@@ -4157,6 +4304,10 @@ int main()
 								cooldown++;
 								if (cooldown == 1 || cooldown == 2 || cooldown == 3)
 								{
+									//Hurt//
+									hurtSound.play();
+									boss.hurt = true;
+									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
 									player.attackState = 2;
@@ -4354,6 +4505,16 @@ int main()
 						}
 					}
 				}
+
+
+				enemyDeath1.faceRight = faceRightEnemy1Temp;
+
+				if (enemyDeath1.isDie() == true)
+				{
+					//enemyDeath2.faceRight = enemy2.faceRight;
+					enemyDeath1.animationEnemyDeath.play = true;
+					enemyDeath1.Draw(window);
+				}
 				//draw Enemy2
 				if (enemy2.isDieSpawn() == false)
 				{
@@ -4375,6 +4536,16 @@ int main()
 					}
 
 				}
+
+
+				enemyDeath2.faceRight = faceRightEnemy2Temp;
+
+				if (enemyDeath2.isDie() == true)
+				{
+					//enemyDeath2.faceRight = enemy2.faceRight;
+					enemyDeath2.animationEnemyDeath.play = true;
+					enemyDeath2.Draw(window);
+				}
 				//draw Enemy3
 				if (enemy3.isDieSpawn() == false)
 				{
@@ -4394,6 +4565,17 @@ int main()
 							window.draw(heartEnemy3_1);
 						}
 					}
+
+				}
+
+
+				enemyDeath3.faceRight = faceRightEnemy3Temp;
+
+				if (enemyDeath3.isDie() == true)
+				{
+					//enemyDeath2.faceRight = enemy2.faceRight;
+					enemyDeath3.animationEnemyDeath.play = true;
+					enemyDeath3.Draw(window);
 
 				}
 				//draw semi boss
@@ -4427,6 +4609,14 @@ int main()
 					}
 				}
 
+				enemyDeath4.faceRight = faceRightEnemy4Temp;
+
+				if (enemyDeath4.isDie() == true)
+				{
+					//enemyDeath2.faceRight = enemy2.faceRight;
+					enemyDeath4.animationEnemyDeath.play = true;
+					enemyDeath4.Draw(window);
+				}
 				//draw Boss
 				if (boss.isDieSpawn() == false)
 				{
@@ -4476,7 +4666,15 @@ int main()
 
 					}
 				}
+				enemyDeath5.faceRight = faceRightEnemy5Temp;
 
+				if (enemyDeath5.isDie() == true)
+				{
+					//enemyDeath2.faceRight = enemy2.faceRight;
+					enemyDeath5.animationEnemyDeath.play = true;
+					enemyDeath5.Draw(window);
+
+				}
 				////////////////////////////////////////////////draw platforms////////////////////////////////////////////////
 				//for (Platform& platform : platforms)
 				//	platform.Draw(window);
@@ -4551,6 +4749,11 @@ int main()
 					{
 					case sf::Event::KeyReleased:
 						switch (evnt.key.code) {
+						case sf::Keyboard::Escape:
+							window.close();
+							goto closedWindow;
+							break;
+
 						case sf::Keyboard::W:
 							Remenu.MoveUp();
 							break;
