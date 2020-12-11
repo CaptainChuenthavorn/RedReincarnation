@@ -34,6 +34,11 @@
 #include "Princess.h"
 #include "animationPrincess.h"
 #include "BossDeath.h"
+#include "EndScene.h"
+#include "HighScore.h"
+#include <fstream>
+#include <string>
+#include <algorithm>
 static const float VIEW_HEIGHT = 720.0f;
 static const float VIEW_WIDTH = 1080.0f;
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
@@ -296,6 +301,7 @@ int main()
 
 
 	////////// state obj //////////
+	bool check_EndState = false;
 	bool check_state2 = false;
 	//////////    Manu State    //////////
 	Menu menu(window.getSize().x, window.getSize().y);
@@ -324,11 +330,13 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play has been preesed" << std::endl;
-						state = 2;
+						state = 88;
 						checkGameOpen = true;
 						break;
 					case 1:
 						std::cout << "Leaderboard has been preesed" << std::endl;
+						state = 76;
+						checkGameOpen = true;
 						break;
 					case 2:
 						window.close();
@@ -1478,7 +1486,8 @@ int main()
 
 						flag.setDestroy(true);
 						printf(" Hit the flag !!\n");
-						state = 2;
+						//state = 2;
+						state = 88;//endgame
 						goto jumperState;
 					}
 				}
@@ -5083,7 +5092,7 @@ int main()
 				//state restart
 		if (state == 66)
 		{
-
+			printf("\nWe are in restart state 66\n");
 			//////////    Manu State    //////////
 			//sf::RenderWindow window(sf::VideoMode(1080, 720), "Red Journey");
 			RestartMenu Remenu(window.getSize().x, window.getSize().y);
@@ -5161,7 +5170,435 @@ int main()
 			}//while isOpen
 
 		}// if state (66)
+		//state EndScene
+		if (state == 88)
+		{
+			printf("\nWe are in Endscene state 88\n");
+			//////////    Manu State    //////////
+			//sf::RenderWindow window(sf::VideoMode(1080, 720), "Red Journey");
+			EndScene Endmenu(window.getSize().x, window.getSize().y);
+			sf::Texture textureRe;
+			if (!textureRe.loadFromFile("asset/BG1.jpg")) {
+				//handle error
+			}
+			sf::Sprite backgroundEndScene;
+			backgroundEndScene.setTexture(textureRe);
+			backgroundEndScene.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
+			backgroundEndScene.scale(0.09, 0.09);
+			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f);
 
+			//sound 
+			died.play();
+			BGSound.stop();
+
+			//
+			sf::Text Player_Name;
+			sf::Text Player_Score;
+
+			Player_Name.setFont(font);
+			Player_Name.setCharacterSize(50);
+			Player_Name.setFillColor(sf::Color::Red);
+			Player_Name.setOrigin(Player_Name.getLocalBounds().width / 2, Player_Name.getLocalBounds().height / 2);
+			Player_Name.setPosition(sf::Vector2f(1080 / 2 - 400, 720 / (MAX_ITEMS + 1) * 2 - 400));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			//Player Score
+			Player_Score.setFont(font);
+			Player_Score.setCharacterSize(72);
+			Player_Score.setFillColor(sf::Color::Red);
+
+			Player_Score.setOrigin(Player_Score.getLocalBounds().width / 2, Player_Score.getLocalBounds().height / 2);
+
+			Player_Score.setPosition(sf::Vector2f(1080 / 2 + 200, 720 / (MAX_ITEMS + 1) * 2 - 400));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			std::string TypeBuffer;
+
+			std::ofstream writeFile;
+			
+			bool checkScoreAlready = false;
+
+			while (window.isOpen())
+			{
+			
+
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					if (evnt.type == sf::Event::TextEntered)
+					{
+						if (evnt.text.unicode == 8)//backspae
+						{
+							if (!TypeBuffer.empty())
+							{
+									TypeBuffer.erase(TypeBuffer.begin() + TypeBuffer.size() - 1);
+							}
+						}
+						//15 = nu. of char
+						else if (TypeBuffer.length() < 15 && evnt.text.unicode < 128) //Check length & alphabet
+						{
+							TypeBuffer += char(evnt.text.unicode);
+						}
+					}
+					Player_Name.setString(TypeBuffer);
+							
+					
+					
+					switch (evnt.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+						case sf::Keyboard::Right:
+							window.close();
+							goto closedWindow;
+							break;
+
+						case sf::Keyboard::Up:
+							Endmenu.MoveUp();
+							break;
+						case sf::Keyboard::Down:
+							Endmenu.MoveDown();
+							break;
+						case sf::Keyboard::Return:
+							switch (Endmenu.GetPressedItem()) {
+							case 0:
+								std::cout << "Menu has been preesed" << std::endl;
+								state = 99; //menu
+								checkRestart = false;
+								goto jumperState;
+								break;
+							case 1:
+								window.close();
+								break;
+
+							}
+						}
+						break;
+
+					case sf::Event::Closed:
+						window.close();
+						goto closedWindow;
+						break;
+
+					}
+
+				}
+				
+				if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && checkScoreAlready == false)
+				{
+					//Saves player name & score, load high score
+					writeFile.open("highscores/score.txt", std::ios::app);
+					writeFile
+						<< "\n" // get a new line
+						<< scoreCount // write score to file
+						<< " " // space
+						<< TypeBuffer; // player name
+					std::cout<<"Score and Name write ";
+
+					writeFile.close();
+					checkScoreAlready = true;
+					break;
+				}
+				window.clear();
+
+				////////////////////////////////////////////////setview (must follow Update)////////////////////////////////////////////////
+				view.setCenter(player.GetPosition());
+				window.setView(view);
+				window.draw(backgroundEndScene);
+				//Background1.Draw(window);
+				Endmenu.draw(window);
+				
+				//name score
+				window.draw(Player_Name);
+				window.draw(Player_Score);
+				
+				window.display();
+				
+
+			}
+		}
+		//Menu state
+		if (state == 99)
+		{
+			printf("\nWe are in menu state 99\n");
+				//////////    Manu State    //////////
+				Menu menu(window.getSize().x, window.getSize().y);
+				bool checkGameOpen = false;
+				while (window.isOpen())
+				{
+					sf::Event evnt;
+					while (window.pollEvent(evnt))
+					{
+						switch (evnt.type)
+						{
+						case sf::Event::KeyReleased:
+							switch (evnt.key.code) {
+
+							//case sf::Keyboard::Escape:
+							//	//window.close();
+							//	break;
+
+							case sf::Keyboard::W:
+								menu.MoveUp();
+								break;
+							case sf::Keyboard::S:
+								menu.MoveDown();
+								break;
+							case sf::Keyboard::Return:
+								switch (menu.GetPressedItem()) {
+								case 0:
+									std::cout << "Play *9999 has been preesed" << std::endl;
+									state = 1;
+								
+									goto jumperState;
+									break;
+								case 1:
+									std::cout << "Leaderboard has been preesed" << std::endl;
+									state = 76;
+									goto jumperState;
+
+									break;
+								case 2:
+									window.close();
+									break;
+								}
+							}
+							break;
+						case sf::Event::Closed:
+							window.close();
+							break;
+
+						}
+
+					}
+					window.clear();
+					window.draw(background);
+					menu.draw(window);
+
+					window.display();
+					
+				}
+			}
+		//state Leaderboard ascii code 76 = L
+		if (state == 76)
+		{
+			bool printScoreAlready = false;
+			printf("We are in Leaderboard\n");
+			//read 
+			std::fstream inFile;
+
+			std::string name_Read;
+			int score_Read;
+			std::vector<HighScore> highScore_Vect;
+			inFile.open("highscores/score.txt");
+			if (!inFile) std::cout << "Not found inFile\n";
+			while (!inFile.eof()) {
+				if (inFile >> score_Read)
+				{
+					getline(inFile, name_Read);
+					highScore_Vect.push_back(*(new HighScore(score_Read, name_Read)));
+				}
+			}
+
+			std::cout << highScore_Vect.size() << std::endl;
+
+			for (int i = 0; i < highScore_Vect.size();i++)
+				std::cout << highScore_Vect[i].getScore() << " " << highScore_Vect[i].getName()<< "\n\n";
+
+			//sort
+			if(highScore_Vect.size() > 1){}
+			std::sort(highScore_Vect.begin(), highScore_Vect.end());
+
+			for (int i = 0; i < highScore_Vect.size();i++)
+				std::cout << highScore_Vect[i].getScore() << " " << highScore_Vect[i].getName() << "\n";
+
+
+		
+			sf::Texture LeaderBoardBG_Texture;
+			LeaderBoardBG_Texture.loadFromFile("asset/Leaderboard.png");
+			sf::Sprite LeaderBoardBG;
+			LeaderBoardBG.setTexture(LeaderBoardBG_Texture);
+
+
+
+			sf::Text name0_Text;
+			name0_Text.setFont(font);
+			name0_Text.setCharacterSize(56.75);
+			name0_Text.setFillColor(sf::Color::Black);
+			//name0_Text.setString(highScore_Vect[0].getName());
+			//name0_Text.setOrigin(name0_Text.getLocalBounds().width / 2, name0_Text.getLocalBounds().height / 2);
+			name0_Text.setPosition(sf::Vector2f(234, 268));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			sf::Text name1_Text;
+			name1_Text.setFont(font);
+			name1_Text.setCharacterSize(56.75);
+			name1_Text.setFillColor(sf::Color::Black);
+			//name1_Text.setString(highScore_Vect[1].getName());
+			//name1_Text.setOrigin(name1_Text.getLocalBounds().width / 2, name1_Text.getLocalBounds().height / 2);
+			name1_Text.setPosition(sf::Vector2f(234, 339));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			
+			sf::Text name2_Text;
+			name2_Text.setFont(font);
+			name2_Text.setCharacterSize(56.75);
+			name2_Text.setFillColor(sf::Color::Black);
+			//name2_Text.setString(highScore_Vect[2].getName());
+			//name2_Text.setOrigin(name2_Text.getLocalBounds().width / 2, name2_Text.getLocalBounds().height / 2);
+			name2_Text.setPosition(sf::Vector2f(234, 401));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			
+			sf::Text name3_Text;
+			name3_Text.setFont(font);
+			name3_Text.setCharacterSize(56.75);
+			name3_Text.setFillColor(sf::Color::Black);
+			//name3_Text.setString(highScore_Vect[3].getName());
+			//name3_Text.setOrigin(name3_Text.getLocalBounds().width / 2, name3_Text.getLocalBounds().height / 2);
+			name3_Text.setPosition(sf::Vector2f(234, 467));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			
+			sf::Text name4_Text;
+			name4_Text.setFont(font);
+			name4_Text.setCharacterSize(56.75);
+			name4_Text.setFillColor(sf::Color::Black);
+			//name4_Text.setString(highScore_Vect[4].getName());
+			//name4_Text.setOrigin(name4_Text.getLocalBounds().width / 2, name4_Text.getLocalBounds().height / 2);
+			name4_Text.setPosition(sf::Vector2f(234, 527));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			
+			
+			sf::Text score0_Text;
+			score0_Text.setFont(font);
+			score0_Text.setCharacterSize(56.75);
+			score0_Text.setFillColor(sf::Color::Black);
+			//score0_Text.setString(std::to_string(highScore_Vect[0].getScore()));
+			//score0_Text.setOrigin(score0_Text.getLocalBounds().width / 2, score0_Text.getLocalBounds().height / 2);
+			score0_Text.setPosition(sf::Vector2f(668,268));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			sf::Text score1_Text;
+			score1_Text.setFont(font);
+			score1_Text.setCharacterSize(56.75);
+			score1_Text.setFillColor(sf::Color::Black);
+			//score1_Text.setString(std::to_string(highScore_Vect[1].getScore()));
+			//score1_Text.setOrigin(score1_Text.getLocalBounds().width / 2, score1_Text.getLocalBounds().height / 2);
+			score1_Text.setPosition(sf::Vector2f(668, 339));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			sf::Text score2_Text;
+			score2_Text.setFont(font);
+			score2_Text.setCharacterSize(56.75);
+			score2_Text.setFillColor(sf::Color::Black);
+			//score2_Text.setString(std::to_string(highScore_Vect[2].getScore()));
+			//score2_Text.setOrigin(score2_Text.getLocalBounds().width / 2, score2_Text.getLocalBounds().height / 2);
+			score2_Text.setPosition(sf::Vector2f(668,401));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			sf::Text score3_Text;
+			score3_Text.setFont(font);
+			score3_Text.setCharacterSize(56.75);
+			score3_Text.setFillColor(sf::Color::Black);
+			//score3_Text.setString(std::to_string(highScore_Vect[3].getScore()));
+			//score3_Text.setOrigin(score3_Text.getLocalBounds().width / 2, score3_Text.getLocalBounds().height / 2);
+			score3_Text.setPosition(sf::Vector2f(668, 467));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			sf::Text score4_Text;
+			score4_Text.setFont(font);
+			score4_Text.setCharacterSize(56.75);
+			score4_Text.setFillColor(sf::Color::Black);
+			//score4_Text.setString(std::to_string(highScore_Vect[4].getScore()));
+			//score4_Text.setOrigin(score4_Text.getLocalBounds().width / 2, score4_Text.getLocalBounds().height / 2);
+			score4_Text.setPosition(sf::Vector2f(668, 527));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+
+			std::vector <sf::Text> name_Vect_Text;
+			name_Vect_Text.push_back(name0_Text);
+			name_Vect_Text.push_back(name1_Text);
+			name_Vect_Text.push_back(name2_Text);
+			name_Vect_Text.push_back(name3_Text);
+			name_Vect_Text.push_back(name4_Text);
+
+			std::vector <sf::Text> score_Vect_Text;
+			score_Vect_Text.push_back(score0_Text);
+			score_Vect_Text.push_back(score1_Text);
+			score_Vect_Text.push_back(score2_Text);
+			score_Vect_Text.push_back(score3_Text);
+			score_Vect_Text.push_back(score4_Text);
+			//score
+			for (int i = 0;i < 5 && (i < highScore_Vect.size());i++)
+			{
+				score_Vect_Text[i].setString(std::to_string(highScore_Vect[i].getScore()));
+			}
+			//name
+			for (int i = 0;i < 5 && (i < highScore_Vect.size());i++)
+			{
+				name_Vect_Text[i].setString(highScore_Vect[i].getName());
+			}
+
+			
+			
+			while (1) {
+				window.clear();
+				printf("\ndraw leaw na\n");
+				window.draw(LeaderBoardBG);
+				/*window.draw(score0_Text);
+				window.draw(score1_Text);
+				window.draw(score2_Text);
+				window.draw(score3_Text);
+				window.draw(score4_Text);
+
+				window.draw(name0_Text);
+				window.draw(name1_Text);
+				window.draw(name2_Text);
+				window.draw(name3_Text);
+				window.draw(name4_Text);*/
+				//score
+				for (int i = 0;i < 5 && (i < highScore_Vect.size());i++)
+				{
+					
+					//score_Vect_Text[i].setString(std::to_string(highScore_Vect[i].getScore()));
+					window.draw(score_Vect_Text[i]);
+				}
+				//name
+				for (int i = 0;i < 5 && (i < highScore_Vect.size());i++)
+				{
+					//name_Vect_Text[i].setString(highScore_Vect[i].getName());
+					window.draw(name_Vect_Text[i]);
+				}
+
+				window.display();
+					//printf("We are in Leaderboard While(1)\n");
+		
+				//if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && printScoreAlready == false)
+				//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && printScoreAlready == false)
+				//{
+				//
+				//	//while (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)|| (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)))
+				//	while (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) )
+				//	{
+				//		printf("W Escape");
+				//	}
+				//	state = 99; //menu
+				//	checkRestart = false;
+				//	
+				//	printScoreAlready = true;
+				//	goto jumperState;
+				//	break;
+				//}
+
+
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					switch (evnt.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+
+						case sf::Keyboard::Return:
+							state = 99; //menu
+							checkRestart = false;
+
+							printScoreAlready = true;
+							goto jumperState;
+								break;
+							}
+						}
+					
+				}
+
+
+			}
+
+		}
 	}// while (1)
 closedWindow:
 

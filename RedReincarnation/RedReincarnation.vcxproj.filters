@@ -78,6 +78,12 @@
     <ClCompile Include="BossDeath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EndScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h">
@@ -138,6 +144,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BossDeath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

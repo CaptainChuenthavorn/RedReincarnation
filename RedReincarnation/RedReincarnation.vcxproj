@@ -155,9 +155,11 @@
     <ClCompile Include="BossDeath.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="EndScene.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyDeath.cpp" />
     <ClCompile Include="Flag.cpp" />
+    <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="hitbox.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -178,9 +180,11 @@
     <ClInclude Include="BossDeath.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="EndScene.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyDeath.h" />
     <ClInclude Include="Flag.h" />
+    <ClInclude Include="HighScore.h" />
     <ClInclude Include="hitbox.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Menu.h" />
