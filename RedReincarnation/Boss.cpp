@@ -40,17 +40,17 @@ void Boss::Update(float deltaTime)
 	//velocity.x += speed;
 	enycl = cl.getElapsedTime().asSeconds();
 	//3 6 9
-	if (enycl <= 3.0f)
+	if (enycl <= 2.0f)
 	{
 		velocity.x += speed * 0.7;
 
 	}
-	else if (enycl <= 6.0f && enycl >= 3.0f)
+	else if (enycl <= 4.0f && enycl >= 2.0f)
 	{
 		velocity.x = 0;
 
 	}
-	else if (enycl <= 9.0f && enycl >= 6.0f)
+	else if (enycl <= 6.0f && enycl >= 4.0f)
 	{
 		velocity.x -= speed * 0.7;
 		enycl = 0.0f;

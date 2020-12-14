@@ -100,6 +100,11 @@ int main()
 	sf::Sound BGSound;
 	BGSound_.loadFromFile("asset/Sound/soundEpic.WAV");
 	BGSound.setBuffer(BGSound_);
+
+	sf::SoundBuffer EndScene_Sound;
+	sf::Sound EndSceneSound;
+	EndScene_Sound.loadFromFile("asset/Sound/EndScene_sound.WAV");
+	EndSceneSound.setBuffer(EndScene_Sound);
 	//BGSound.play();
 	//BGSound.setLoop(true);
 	////////// State Count //////////
@@ -133,10 +138,9 @@ int main()
 	float spawnItemf = 0.0f;
 
 	srand(time(NULL));
-	int ranChestX = rand() % 1000;
-	int ranChestY = rand() % 620;
-	float ranChestx = ranChestX / 10.f;
-	float ranChesty = ranChestY / 10.f;
+	
+	float ranChestX=0.0f;
+
 
 	//printf("chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
 	chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 2000 + 1000, rand() % 300 + 300), sf::Vector2f(0, 1)));
@@ -175,8 +179,8 @@ int main()
 	sf::Clock hpPotionTime;
 	float potionT = 0.0f; //à»ç¹µÑÇà¡çº¤èÒ àÇÅÒ¢Í§ bullet
 	/*sf::Clock spawnItem;
-	float spawnItemf = 0.0f;
-	srand(time(NULL));*/
+	float spawnItemf = 0.0f;*/
+	
 	int ranhpPotionX = rand() % 1000;
 	int ranhpPotionY = rand() % 620;
 	float ranhpPotionx = ranhpPotionX / 10.f;
@@ -187,11 +191,10 @@ int main()
 	hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(rand() % 2000 + 1100, rand() % 300 + 305), sf::Vector2f(0, 1)));
 	/**************************************************************************************/
 	//heartPlayer.setSize(sf::Vector2f(100,100)); 
-	//srand(time(NULL));
-	int ranHeartPotionX = rand() % 1000;
-	int ranHeartPotionY = rand() % 620;
-	float ranHpX = ranHeartPotionX / 10.f;
-	float ranHpY = ranHeartPotionY / 10.f;
+	
+	
+	float ranHpX=0.0f;
+	
 
 	//////////////////////////score////////////////////
 	int scoreCount = 0;
@@ -330,6 +333,7 @@ int main()
 					switch (menu.GetPressedItem()) {
 					case 0:
 						std::cout << "Play has been preesed" << std::endl;
+						//mark
 						state = 88;
 						checkGameOpen = true;
 						break;
@@ -380,7 +384,7 @@ int main()
 		if (state == 1)
 		{
 
-			printf("We are in state == 2 \n");
+			
 			/********************************** Clock ********************************/
 			sf::Clock RuntimeClock;
 			sf::Time RunTime;
@@ -426,13 +430,12 @@ int main()
 			sf::Clock spawnItem;
 			float spawnItemf = 0.0f;
 
-			srand(time(NULL));
-			int ranChestX = rand() % 1000;
-			int ranChestY = rand() % 620;
-			float ranChestx = ranChestX / 10.f;
-			float ranChesty = ranChestY / 10.f;
+			
+			
+			float ranChestX=0.0f;
+			
 
-			printf("chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
+			
 			chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 2000 + 1000, rand() % 300), sf::Vector2f(0, 1)));
 
 			/**********************************Player Heart********************************/
@@ -448,7 +451,6 @@ int main()
 			heartPlayer2.setTexture(heartplayerTexture);
 
 			sf::Sprite heartPlayer3;
-
 			heartPlayer3.setScale(5.0f, 5.0f);
 			heartPlayer3.setTexture(heartplayerTexture);
 
@@ -516,10 +518,9 @@ int main()
 			//hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(rand() % 2000 + 1100, rand() % 300 + 305), sf::Vector2f(0, 1)));
 			hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(ranhpPotionX, ranhpPotionY), sf::Vector2f(0, 1)));
 			/**************************************************************************************/
-			int ranHeartPotionX = rand() % 1000;
-			int ranHeartPotionY = rand() % 620;
-			float ranHpX = ranHeartPotionX / 10.f;
-			float ranHpY = ranHeartPotionY / 10.f;
+			
+			float ranHpX=0.0f;
+		
 
 			//////////////////////////score////////////////////
 			scoreCount = 0;
@@ -592,7 +593,7 @@ int main()
 			sf::Sprite ammo1;
 			sf::Texture ammoTexture;
 			if (!ammoTexture.loadFromFile("asset/bullet.png"));
-			ammo1.setScale(0.15f, 0.15f);
+			ammo1.setScale(2.5f, 2.5f);
 			ammo1.setTexture(ammoTexture);
 			ammo = 5;
 			//////////////////////////////////////////////////////////////////////
@@ -762,6 +763,11 @@ int main()
 							window.close();
 							goto closedWindow;
 							break;
+						case sf::Keyboard::M:
+							state = 99;
+							goto jumperState;
+							
+							break;
 						}
 						break;
 					case sf::Event::Closed:
@@ -807,9 +813,10 @@ int main()
 						chestSound.play();
 						chest.setDestroy(true);
 						printf(" Hit the chest !!\n");
+						scoreCount += 3;
 						ammo += rand() % 3 + 3;
-						float ranChestX = rand() % 2000 + 1000;
-						float ranChestY = rand() % 300 + 300;
+						ranChestX = rand() % 11000 - player.GetPosition().x;
+						
 						player.immortalTime = 10.0f;
 						chest.setSpawn(true);
 						player.immortal = true;
@@ -822,10 +829,10 @@ int main()
 				{
 					if (chest[i].isSpawn())
 					{
-						printf("New chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
+						//printf("New chest spawn at x: %f y : %f\n", ranChestX, 0);
 						//				chest.push_back(Item(&chest_texture, sf::Vector2f(ranChestX, ranChestY), sf::Vector2f(0, 0)));
 
-						chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 9737, 0), sf::Vector2f(0, 0)));
+						chest.push_back(Item(&chest_texture, sf::Vector2f(ranChestX + player.GetPosition().x, 0), sf::Vector2f(0, 0)));
 
 						chest[i].setSpawn(false);
 					}
@@ -857,8 +864,10 @@ int main()
 						potionSound.play();
 						hpPotion.setDestroy(true);
 						printf(" Hit the Potion !!\n");
+						scoreCount += 2;
 						hpPotion.setSpawn(true);
 						//potionSpawn = 1;
+						ranHpX = rand() % 11000 - player.GetPosition().x;
 						if (player.hpPlayer < 3)
 						{
 							int randompotion;
@@ -874,14 +883,15 @@ int main()
 				}
 
 				//std::cout << itemCooldown << std::endl;
-
+				
 				for (int i = 0;i < hpPotion.size();i++)
 				{
 					if (hpPotion[i].isSpawn())
 					{
-
+						
+						
 						printf("New hpPotion spawn at \n");
-						hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(rand() % 9737, 0), sf::Vector2f(0, 0)));
+						hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(ranHpX+player.GetPosition().x, 0), sf::Vector2f(0, 0)));
 						hpPotion[i].setSpawn(false);
 
 					}
@@ -990,7 +1000,7 @@ int main()
 				//heartEnemy3.setPosition(enemy1.GetPosition().x + 20, enemy1.GetPosition().y - 40);
 
 				/////////////////////////////////////////////////////ammo player////////////////////////////////////////////////////// 
-				ammo1.setPosition(view.getCenter().x + 400, view.getCenter().y - 200);
+				ammo1.setPosition(view.getCenter().x + 380, view.getCenter().y - 200);
 
 
 				/////////////////////////////////////////player && enemy Update && hitboxupdate/////////////////////////////////////////
@@ -1487,7 +1497,7 @@ int main()
 						flag.setDestroy(true);
 						printf(" Hit the flag !!\n");
 						//state = 2;
-						state = 88;//endgame
+						state = 2;//endgame
 						goto jumperState;
 					}
 				}
@@ -1691,6 +1701,7 @@ int main()
 
 				////////////////////////////////////////////////setview (must follow Update)////////////////////////////////////////////////
 				view.setCenter(player.GetPosition().x, 380);
+				
 				////////////////////////////////////////////////set background slide////////////////////////////////////////////////
 				for (Background& background : backgrounds)
 					background.Update(deltaTime);
@@ -1907,11 +1918,10 @@ int main()
 			sf::Clock spawnItem;
 			float spawnItemf = 0.0f;
 
-			srand(time(NULL));
-			int ranChestX = rand() % 1000;
-			int ranChestY = rand() % 620;
-			float ranChestx = ranChestX / 10.f;
-			float ranChesty = ranChestY / 10.f;
+			
+		
+			float ranChestX=0.0f;
+		
 
 			//printf("chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
 			chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 2000 + 1000, rand() % 300 + 300), sf::Vector2f(0, 1)));
@@ -2003,11 +2013,9 @@ int main()
 			hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(ranhpPotionX, ranhpPotionY), sf::Vector2f(0, 1)));
 			/**************************************************************************************/
 			//heartPlayer.setSize(sf::Vector2f(100,100)); 
-			//srand(time(NULL));
-			int ranHeartPotionX = rand() % 1000;
-			int ranHeartPotionY = rand() % 620;
-			float ranHpX = ranHeartPotionX / 10.f;
-			float ranHpY = ranHeartPotionY / 10.f;
+			
+			
+			float ranHpX=0.0f ;
 
 			//////////////////////////score////////////////////
 			//int scoreCount = 0;
@@ -2043,8 +2051,8 @@ int main()
 			
 			
 			
-			enemyDeath enemyDeath1(&GreyEnemy, sf::Vector2u(8, 8), 0.2f, 0.0f, 0.0f);
-			enemyDeath enemyDeath2(&GreyEnemy, sf::Vector2u(8, 8), 0.2f, 40.0f, 300.0f);
+			enemyDeath enemyDeath1(&KnightEnemy, sf::Vector2u(8, 8), 0.2f, 0.0f, 0.0f);
+			enemyDeath enemyDeath2(&KnightEnemy, sf::Vector2u(8, 8), 0.2f, 40.0f, 300.0f);
 			
 
 			sf::Vector2f enemyDeath1Temp;
@@ -2085,7 +2093,7 @@ int main()
 			sf::Sprite ammo1;
 			sf::Texture ammoTexture;
 			if (!ammoTexture.loadFromFile("asset/bullet.png"));
-			ammo1.setScale(0.15f, 0.15f);
+			ammo1.setScale(2.5f, 2.5f);
 			ammo1.setTexture(ammoTexture);
 
 			//////////////////////////////////////////////////////////////////////
@@ -2274,6 +2282,11 @@ int main()
 							window.close();
 							goto closedWindow;
 							break;
+						case sf::Keyboard::M:
+							state = 99;
+							goto jumperState;
+
+							break;
 						}
 						break;
 					case sf::Event::Closed:
@@ -2306,9 +2319,10 @@ int main()
 						chestSound.play();
 						chest.setDestroy(true);
 						printf(" Hit the chest !!\n");
-						ammo += rand() % 3 + 3;
-						float ranChestX = rand() % 2000 + 1000;
-						float ranChestY = rand() % 300 + 300;
+						scoreCount += 3;
+						ammo += rand() % 3 + 3;//[11000 - ]
+						ranChestX = rand() % 11000-player.GetPosition().x;
+						//float ranChestY = rand() % 300 + 300;
 						player.immortalTime = 10.0f;
 						chest.setSpawn(true);
 						player.immortal = true;
@@ -2321,10 +2335,10 @@ int main()
 				{
 					if (chest[i].isSpawn())
 					{
-						printf("New chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
+						printf("New chest spawn at x: %f y : %f\n", ranChestX, 0);
 						//				chest.push_back(Item(&chest_texture, sf::Vector2f(ranChestX, ranChestY), sf::Vector2f(0, 0)));
 
-						chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 9737, 0), sf::Vector2f(0, 0)));
+						chest.push_back(Item(&chest_texture, sf::Vector2f(ranChestX + player.GetPosition().x, 0), sf::Vector2f(0, 0)));
 
 						chest[i].setSpawn(false);
 					}
@@ -2356,8 +2370,10 @@ int main()
 						potionSound.play();
 						hpPotion.setDestroy(true);
 						printf(" Hit the Potion !!\n");
+						scoreCount += 2;
 						hpPotion.setSpawn(true);
 						//potionSpawn = 1;
+						ranHpX = rand() % 11000 - player.GetPosition().x;
 						if (player.hpPlayer < 3)
 						{
 							int randompotion;
@@ -2373,14 +2389,14 @@ int main()
 				}
 
 				//std::cout << itemCooldown << std::endl;
-
+			
 				for (int i = 0;i < hpPotion.size();i++)
 				{
 					if (hpPotion[i].isSpawn())
 					{
-
+						
 						printf("New hpPotion spawn at \n");
-						hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(rand() % 9737, 0), sf::Vector2f(0, 0)));
+						hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(ranHpX+player.GetPosition().x, 0), sf::Vector2f(0, 0)));
 						hpPotion[i].setSpawn(false);
 
 					}
@@ -2484,7 +2500,7 @@ int main()
 				
 
 				/////////////////////////////////////////////////////ammo player////////////////////////////////////////////////////// 
-				ammo1.setPosition(view.getCenter().x + 400, view.getCenter().y - 200);
+				ammo1.setPosition(view.getCenter().x + 380, view.getCenter().y - 200);
 
 
 				/////////////////////////////////////////player && enemy Update && hitboxupdate/////////////////////////////////////////
@@ -3194,11 +3210,10 @@ int main()
 			sf::Clock spawnItem;
 			float spawnItemf = 0.0f;
 
-			srand(time(NULL));
-			int ranChestX = rand() % 1000;
-			int ranChestY = rand() % 620;
-			float ranChestx = ranChestX / 10.f;
-			float ranChesty = ranChestY / 10.f;
+			
+			
+			float ranChestX=0.0f;
+			
 
 			//printf("chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
 			chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 2000 + 1000, rand() % 300 + 300), sf::Vector2f(0, 1)));
@@ -3336,11 +3351,9 @@ int main()
 			hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(ranhpPotionX, ranhpPotionY), sf::Vector2f(0, 1)));
 			/**************************************************************************************/
 			//heartPlayer.setSize(sf::Vector2f(100,100)); 
-			//srand(time(NULL));
-			int ranHeartPotionX = rand() % 1000;
-			int ranHeartPotionY = rand() % 620;
-			float ranHpX = ranHeartPotionX / 10.f;
-			float ranHpY = ranHeartPotionY / 10.f;
+			
+		
+			float ranHpX=0.0f;
 
 			//////////////////////////score////////////////////
 			//int scoreCount = 0;
@@ -3362,7 +3375,7 @@ int main()
 			sf::Texture GreyEnemy;
 			sf::Texture GoldenEnemy;
 			//load enemy texture//
-			GoldenEnemy.loadFromFile("asset/enemy/GoldenEnemy.PNG");
+			GoldenEnemy.loadFromFile("asset/enemy/GoldenEnemy1.PNG");
 
 			BlackEnemy.loadFromFile("asset/enemy/BlackEnemy.PNG");//16x16 knight 3 v3
 
@@ -3429,7 +3442,7 @@ int main()
 			sf::Sprite ammo1;
 			sf::Texture ammoTexture;
 			if (!ammoTexture.loadFromFile("asset/bullet.png"));
-			ammo1.setScale(0.15f, 0.15f);
+			ammo1.setScale(2.5f, 2.5f);
 			ammo1.setTexture(ammoTexture);
 
 			//////////////////////////////////////////////////////////////////////
@@ -3623,6 +3636,11 @@ int main()
 							window.close();
 							goto closedWindow;
 							break;
+						case sf::Keyboard::M:
+							state = 99;
+							goto jumperState;
+
+							break;
 						}
 						break;
 					case sf::Event::Closed:
@@ -3655,9 +3673,10 @@ int main()
 						chestSound.play();
 						chest.setDestroy(true);
 						printf(" Hit the chest !!\n");
+						scoreCount += 3;
 						ammo += rand() % 3 + 3;
-						float ranChestX = rand() % 2000 + 1000;
-						float ranChestY = rand() % 300 + 300;
+						ranChestX = rand() % 11000 - player.GetPosition().x;
+						
 						player.immortalTime = 10.0f;
 						chest.setSpawn(true);
 						player.immortal = true;
@@ -3670,10 +3689,10 @@ int main()
 				{
 					if (chest[i].isSpawn())
 					{
-						printf("New chest spawn at x: %f y : %f\n", ranChestx, ranChestY);
+						printf("New chest spawn at x: %f y : %f\n", ranChestX, 0);
 						//				chest.push_back(Item(&chest_texture, sf::Vector2f(ranChestX, ranChestY), sf::Vector2f(0, 0)));
 
-						chest.push_back(Item(&chest_texture, sf::Vector2f(rand() % 9737, 0), sf::Vector2f(0, 0)));
+						chest.push_back(Item(&chest_texture, sf::Vector2f(ranChestX+player.GetPosition().x, 0), sf::Vector2f(0, 0)));
 
 						chest[i].setSpawn(false);
 					}
@@ -3705,7 +3724,9 @@ int main()
 						potionSound.play();
 						hpPotion.setDestroy(true);
 						printf(" Hit the Potion !!\n");
+						scoreCount += 2;
 						hpPotion.setSpawn(true);
+						ranHpX = rand() % 11000 - player.GetPosition().x;
 						//potionSpawn = 1;
 						if (player.hpPlayer < 3)
 						{
@@ -3722,14 +3743,14 @@ int main()
 				}
 
 				//std::cout << itemCooldown << std::endl;
-
+				
 				for (int i = 0;i < hpPotion.size();i++)
 				{
 					if (hpPotion[i].isSpawn())
 					{
 
 						printf("New hpPotion spawn at \n");
-						hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(rand() % 9737, 0), sf::Vector2f(0, 0)));
+						hpPotion.push_back(Item(&hpPotionTexture, sf::Vector2f(ranHpX+player.GetPosition().x, 0), sf::Vector2f(0, 0)));
 						hpPotion[i].setSpawn(false);
 
 					}
@@ -3851,7 +3872,7 @@ int main()
 				//heartEnemy3.setPosition(enemy1.GetPosition().x + 20, enemy1.GetPosition().y - 40);
 
 				/////////////////////////////////////////////////////ammo player////////////////////////////////////////////////////// 
-				ammo1.setPosition(view.getCenter().x + 400, view.getCenter().y - 200);
+				ammo1.setPosition(view.getCenter().x + 380, view.getCenter().y - 200);
 
 
 				/////////////////////////////////////////player && enemy Update && hitboxupdate/////////////////////////////////////////
@@ -4224,7 +4245,7 @@ int main()
 					princess1.OncollisionPrincess(direction);
 					player.velocity.x = 0.0f;
 					princess1.velocity.x = 0.0f;
-					state = 1;
+					state = 88;
 					goto jumperState;
 				}
 
@@ -5102,9 +5123,9 @@ int main()
 			}
 			sf::Sprite backgroundRestart;
 			backgroundRestart.setTexture(textureRe);
-			backgroundRestart.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
+			backgroundRestart.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370 + 89);
 			backgroundRestart.scale(0.09, 0.09);
-			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f);
+			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f );
 
 			//sound 
 			died.play();
@@ -5173,6 +5194,9 @@ int main()
 		//state EndScene
 		if (state == 88)
 		{
+			EndSceneSound.play();
+			EndSceneSound.setLoop(true);
+			BGSound.stop();
 			printf("\nWe are in Endscene state 88\n");
 			//////////    Manu State    //////////
 			//sf::RenderWindow window(sf::VideoMode(1080, 720), "Red Journey");
@@ -5181,16 +5205,36 @@ int main()
 			if (!textureRe.loadFromFile("asset/BG1.jpg")) {
 				//handle error
 			}
-			sf::Sprite backgroundEndScene;
+			/*sf::Sprite backgroundEndScene;
 			backgroundEndScene.setTexture(textureRe);
 			backgroundEndScene.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
-			backgroundEndScene.scale(0.09, 0.09);
+			backgroundEndScene.scale(0.09, 0.09);*/
 			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f);
 
 			//sound 
-			died.play();
-			BGSound.stop();
+			
+			
+		
+			//////////////////////////score Text////////////////////
 
+			sf::Text scoreText;
+			sf::Text scoreString;
+			
+			scoreString.setPosition(420-188, 552+2);
+			scoreString.setFillColor(sf::Color::Red);
+			scoreString.setFont(font);
+			scoreString.setString(std::to_string(scoreCount));
+			scoreString.setOutlineThickness(5.f);
+			scoreString.setOutlineColor(sf::Color::White);
+			scoreString.setCharacterSize(72);
+
+			//background//
+			sf::Texture EndScene_Texture;
+			EndScene_Texture.loadFromFile("asset/Endscene.png");
+			sf::Sprite backgroundEndScene;
+			backgroundEndScene.setTexture(EndScene_Texture);
+			//backgroundEndScene.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
+			backgroundEndScene.setPosition(-188,-2);
 			//
 			sf::Text Player_Name;
 			sf::Text Player_Score;
@@ -5199,7 +5243,11 @@ int main()
 			Player_Name.setCharacterSize(50);
 			Player_Name.setFillColor(sf::Color::Red);
 			Player_Name.setOrigin(Player_Name.getLocalBounds().width / 2, Player_Name.getLocalBounds().height / 2);
-			Player_Name.setPosition(sf::Vector2f(1080 / 2 - 400, 720 / (MAX_ITEMS + 1) * 2 - 400));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			Player_Name.setOutlineThickness(5.f);
+			Player_Name.setOutlineColor(sf::Color::White);
+			//Player_Name.setPosition(sf::Vector2f(1080 / 2 - 400, 720 / (MAX_ITEMS + 1) * 2 - 400));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			Player_Name.setPosition(sf::Vector2f(385-188,310+2));
+			
 			//Player Score
 			Player_Score.setFont(font);
 			Player_Score.setCharacterSize(72);
@@ -5207,7 +5255,7 @@ int main()
 
 			Player_Score.setOrigin(Player_Score.getLocalBounds().width / 2, Player_Score.getLocalBounds().height / 2);
 
-			Player_Score.setPosition(sf::Vector2f(1080 / 2 + 200, 720 / (MAX_ITEMS + 1) * 2 - 400));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			Player_Score.setPosition(sf::Vector2f(1080 / 2 + 200, 720 / (MAX_ITEMS + 1) * 2 - 400+109+2));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
 
 			std::string TypeBuffer;
 
@@ -5239,7 +5287,31 @@ int main()
 					}
 					Player_Name.setString(TypeBuffer);
 							
-					
+					//**
+					switch (evnt.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+
+						case sf::Keyboard::Return:
+							//Saves player name & score, load high score
+							writeFile.open("highscores/score.txt", std::ios::app);
+							writeFile
+								<< "\n" // get a new line
+								<< scoreCount // write score to file
+								<< " " // space
+								<< TypeBuffer; // player name
+							std::cout << "Score and Name write ";
+
+							writeFile.close();
+							checkScoreAlready = true;
+							break;
+
+							goto jumperState;
+							break;
+						}
+					}
+					/**/
 					
 					switch (evnt.type)
 					{
@@ -5278,29 +5350,32 @@ int main()
 						break;
 
 					}
+					
 
 				}
-				
-				if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && checkScoreAlready == false)
-				{
-					//Saves player name & score, load high score
-					writeFile.open("highscores/score.txt", std::ios::app);
-					writeFile
-						<< "\n" // get a new line
-						<< scoreCount // write score to file
-						<< " " // space
-						<< TypeBuffer; // player name
-					std::cout<<"Score and Name write ";
+				//
+				//if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && checkScoreAlready == false)
+				//{
+				//	//Saves player name & score, load high score
+				//	writeFile.open("highscores/score.txt", std::ios::app);
+				//	writeFile
+				//		<< "\n" // get a new line
+				//		<< scoreCount // write score to file
+				//		<< " " // space
+				//		<< TypeBuffer; // player name
+				//	std::cout<<"Score and Name write ";
 
-					writeFile.close();
-					checkScoreAlready = true;
-					break;
-				}
+				//	writeFile.close();
+				//	checkScoreAlready = true;
+				//	break;
+				//}
+
 				window.clear();
 
 				////////////////////////////////////////////////setview (must follow Update)////////////////////////////////////////////////
 				view.setCenter(player.GetPosition());
 				window.setView(view);
+				
 				window.draw(backgroundEndScene);
 				//Background1.Draw(window);
 				Endmenu.draw(window);
@@ -5308,7 +5383,8 @@ int main()
 				//name score
 				window.draw(Player_Name);
 				window.draw(Player_Score);
-				
+				window.draw(scoreString);
+
 				window.display();
 				
 
@@ -5319,6 +5395,7 @@ int main()
 		{
 			printf("\nWe are in menu state 99\n");
 				//////////    Manu State    //////////
+			
 				Menu menu(window.getSize().x, window.getSize().y);
 				bool checkGameOpen = false;
 				while (window.isOpen())
@@ -5364,11 +5441,18 @@ int main()
 						case sf::Event::Closed:
 							window.close();
 							break;
+						case sf::Event::Resized:
+							ResizeView(window, view);
 
+						
 						}
 
+						
 					}
+					view.setCenter(540, 360);
+					
 					window.clear();
+					window.setView(view);
 					window.draw(background);
 					menu.draw(window);
 

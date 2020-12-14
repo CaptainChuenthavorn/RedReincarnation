@@ -12,14 +12,14 @@ RestartMenu::RestartMenu(float width, float height)
 	Remenu[0].setString("Restart");
 	Remenu[0].setOrigin(Remenu[0].getLocalBounds().width / 2, Remenu[0].getLocalBounds().height / 2);
 	//Remenu[0].setPosition(sf::Vector2f((width / 6 * 5) - 20, (height / (MAX_ITEMS + 5) * 2) + 10));
-	Remenu[0].setPosition(sf::Vector2f(width / 2 - 200, height / (MAX_ITEMS + 1) * 1));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+	Remenu[0].setPosition(sf::Vector2f(width / 2 - 200, height / (MAX_ITEMS + 1) * 1+260));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
 
 	Remenu[1].setFont(font);
 	Remenu[1].setFillColor(sf::Color::White);
 	Remenu[1].setString("Exit");
 	Remenu[1].setOrigin(Remenu[1].getLocalBounds().width / 2, Remenu[1].getLocalBounds().height / 2);
 	//Remenu[1].setPosition(sf::Vector2f((width / 6 * 5) - 20, (height / (MAX_ITEMS + 5) * 3) + 40));
-	Remenu[1].setPosition(sf::Vector2f(width / 2 - 200, height / (MAX_ITEMS + 1) * 2));//	Remenu[1].setPosition(sf::Vector2f(width / 2-200, height / (MAX_ITEMS + 1) * 2 - 200));
+	Remenu[1].setPosition(sf::Vector2f(width / 2 - 200, height / (MAX_ITEMS + 1) * 2+150));//	Remenu[1].setPosition(sf::Vector2f(width / 2-200, height / (MAX_ITEMS + 1) * 2 - 200));
 }
 
 RestartMenu::~RestartMenu()

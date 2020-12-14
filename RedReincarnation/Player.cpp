@@ -12,7 +12,7 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageCount, float switchTime, 
 	body.setSize(sf::Vector2f(100.0, 74.0));
 	//body.setSize(sf::Vector2f(40.0, 29.6));
 	body.setOrigin(body.getSize() / 2.0f);
-	body.setPosition(350.0f, 250.0f);
+	body.setPosition(350.0f, 350.0f);
 	body.setTexture(texture);
 
 	//hitbox
