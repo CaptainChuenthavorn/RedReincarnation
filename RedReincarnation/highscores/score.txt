@@ -2,7 +2,4 @@
 230 cap
 810 xoej
 1630 captain
-890 555
-
-0 captainc
-0 captainsssss
+890 555

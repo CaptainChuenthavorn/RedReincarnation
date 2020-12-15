@@ -334,7 +334,7 @@ int main()
 					case 0:
 						std::cout << "Play has been preesed" << std::endl;
 						//mark
-						state = 88;
+						state = 3;
 						checkGameOpen = true;
 						break;
 					case 1:
@@ -5205,10 +5205,6 @@ int main()
 			if (!textureRe.loadFromFile("asset/BG1.jpg")) {
 				//handle error
 			}
-			/*sf::Sprite backgroundEndScene;
-			backgroundEndScene.setTexture(textureRe);
-			backgroundEndScene.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
-			backgroundEndScene.scale(0.09, 0.09);*/
 			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f);
 
 			//sound 
@@ -5234,7 +5230,7 @@ int main()
 			sf::Sprite backgroundEndScene;
 			backgroundEndScene.setTexture(EndScene_Texture);
 			//backgroundEndScene.setPosition(VIEW_WIDTH / 2 - 255, VIEW_HEIGHT / 2 - 370);
-			backgroundEndScene.setPosition(-188,-2);
+			backgroundEndScene.setPosition(-190,-10);
 			//
 			sf::Text Player_Name;
 			sf::Text Player_Score;
@@ -5294,6 +5290,7 @@ int main()
 						switch (evnt.key.code) {
 
 						case sf::Keyboard::Return:
+							EndSceneSound.stop();
 							//Saves player name & score, load high score
 							writeFile.open("highscores/score.txt", std::ios::app);
 							writeFile
