@@ -1,11 +1,7 @@
-230 cap
-810 xej
+2400 cap
 1630 captain
-726 captain
 1290 I want you
-2378 swd
-1213 captainzazaz
-652
+2900 swd
+3505 captainzazaz
 2165 captain
-1766 NPNP
-1513 pop
+2328 popo
