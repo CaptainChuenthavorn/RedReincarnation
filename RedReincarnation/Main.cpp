@@ -39,6 +39,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <math.h>
 static const float VIEW_HEIGHT = 720.0f;
 static const float VIEW_WIDTH = 1080.0f;
 void ResizeView(const sf::RenderWindow& window, sf::View& view) {
@@ -105,6 +106,11 @@ int main()
 	sf::Sound EndSceneSound;
 	EndScene_Sound.loadFromFile("asset/Sound/EndScene_sound.WAV");
 	EndSceneSound.setBuffer(EndScene_Sound);
+	
+	sf::SoundBuffer Flag_Sound;
+	sf::Sound FlagSound;
+	Flag_Sound.loadFromFile("asset/Sound/flag_sound1.WAV");
+	FlagSound.setBuffer(Flag_Sound);
 	//BGSound.play();
 	//BGSound.setLoop(true);
 	////////// State Count //////////
@@ -301,8 +307,16 @@ int main()
 	float deltaTime = 0.0f;
 	sf::Clock clockW;
 
-
-
+	//////////////////////name  chakkapat/////////////
+	sf::Text name_Chakkapat;
+	
+	name_Chakkapat.setPosition(10, 650);
+	name_Chakkapat.setFillColor(sf::Color::Black);
+	name_Chakkapat.setFont(font);
+	name_Chakkapat.setString("63010124 Chakkapat Chuenthavorn");
+	name_Chakkapat.setOutlineThickness(1.f);
+	name_Chakkapat.setOutlineColor(sf::Color::White);
+	name_Chakkapat.setCharacterSize(32);
 	////////// state obj //////////
 	bool check_EndState = false;
 	bool check_state2 = false;
@@ -334,7 +348,7 @@ int main()
 					case 0:
 						std::cout << "Play has been preesed" << std::endl;
 						//mark
-						state = 3;
+						state = 101;
 						checkGameOpen = true;
 						break;
 					case 1:
@@ -358,7 +372,7 @@ int main()
 		window.clear();
 		window.draw(background);
 		menu.draw(window);
-
+		window.draw(name_Chakkapat);
 		window.display();
 		if (checkGameOpen == true)
 			break;
@@ -379,12 +393,129 @@ int main()
 		printf("We are in loop while (1)\n");
 		
 	
-	
+		if (state == 101)
+		{
+			
+			//////////    How to play State    //////////
+			//sf::RenderWindow window(sf::VideoMode(1080, 720), "Red Journey");
+			sf::Texture textureHowto1;
+			if (!textureHowto1.loadFromFile("asset/howToPlay.png")) {
+				//handle error
+			}
+			sf::Sprite backgroundHowto1;
+			backgroundHowto1.setTexture(textureHowto1);
+			//////////////////////////score Text////////////////////
+
+
+			while (window.isOpen())
+			{
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					switch (evnt.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+						case sf::Keyboard::Escape:
+							window.close();
+							goto closedWindow;
+							break;
+
+						case sf::Keyboard::Return:
+							
+								std::cout << "Next has been preesed" << std::endl;
+								state = 102;
+								goto jumperState;
+								break;
+							
+						}
+						break;
+
+					case sf::Event::Closed:
+						window.close();
+						goto closedWindow;
+						break;
+
+					}
+
+				}
+				window.clear();
+
+				////////////////////////////////////////////////setview (must follow Update)////////////////////////////////////////////////
+			/*	view.setCenter(player.GetPosition());
+				window.setView(view);*/
+				window.draw(backgroundHowto1);
+				//Background1.Draw(window);
+				
+			
+				window.display();
+				
+			}//while isOpen
+		}
+		if (state == 102)
+		{
+
+			//////////    How to play State    //////////
+			//sf::RenderWindow window(sf::VideoMode(1080, 720), "Red Journey");
+			sf::Texture textureHowto1;
+			if (!textureHowto1.loadFromFile("asset/howToPlay2.png")) {
+				//handle error
+			}
+			sf::Sprite backgroundHowto1;
+			backgroundHowto1.setTexture(textureHowto1);
+			//////////////////////////score Text////////////////////
+
+
+			while (window.isOpen())
+			{
+				sf::Event evnt;
+				while (window.pollEvent(evnt))
+				{
+					switch (evnt.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (evnt.key.code) {
+						case sf::Keyboard::Escape:
+							window.close();
+							goto closedWindow;
+							break;
+
+						case sf::Keyboard::Return:
+
+							std::cout << "Next has been preesed" << std::endl;
+							state = 1;
+							goto jumperState;
+							break;
+
+						}
+						break;
+
+					case sf::Event::Closed:
+						window.close();
+						goto closedWindow;
+						break;
+
+					}
+
+				}
+				window.clear();
+
+				////////////////////////////////////////////////setview (must follow Update)////////////////////////////////////////////////
+			/*	view.setCenter(player.GetPosition());
+				window.setView(view);*/
+				window.draw(backgroundHowto1);
+				//Background1.Draw(window);
+				
+
+				window.display();
+
+			}//while isOpen
+		}
 		//state 1//
 		if (state == 1)
 		{
 
-			
+			potionSound.play();
 			/********************************** Clock ********************************/
 			sf::Clock RuntimeClock;
 			sf::Time RunTime;
@@ -759,6 +890,10 @@ int main()
 					{
 					case sf::Event::KeyReleased:
 						switch (evnt.key.code) {
+						case sf::Keyboard::Equal:
+							state = 88;
+							goto jumperState;
+							break;
 						case sf::Keyboard::Escape:
 							window.close();
 							goto closedWindow;
@@ -815,7 +950,7 @@ int main()
 						printf(" Hit the chest !!\n");
 						scoreCount += 3;
 						ammo += rand() % 3 + 3;
-						ranChestX = rand() % 11000 - player.GetPosition().x;
+						ranChestX =abs( rand() % 11000 - player.GetPosition().x);
 						
 						player.immortalTime = 10.0f;
 						chest.setSpawn(true);
@@ -867,7 +1002,7 @@ int main()
 						scoreCount += 2;
 						hpPotion.setSpawn(true);
 						//potionSpawn = 1;
-						ranHpX = rand() % 11000 - player.GetPosition().x;
+						ranHpX = abs(rand() % 11000 - player.GetPosition().x);
 						if (player.hpPlayer < 3)
 						{
 							int randompotion;
@@ -1293,7 +1428,9 @@ int main()
 									//hurt//
 									enemy1.hurt = true;
 									////////
-									//enemy1.SetPositionBounce(20.0);
+									if(player.faceRight == true )	enemy1.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy1.SetPositionBounce(-20.0);
+
 									enemy1.hp--;
 									printf(" Hit enemy hp :%d    \n", enemy1.hp);
 									//enemy1.SetPositionBounce(40.0);
@@ -1321,7 +1458,8 @@ int main()
 									scoreCount += 10;
 									enemy2.hp--;
 									printf(" Hit enemy hp :%d    \n", enemy2.hp);
-									//enemy2.SetPositionBounce(40.0);
+									if (player.faceRight == true)	enemy2.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy2.SetPositionBounce(-20.0);
 									//hurt//
 									enemy2.hurt = true;
 									////////
@@ -1351,7 +1489,8 @@ int main()
 									scoreCount += 10;
 									enemy3.hp--;
 									printf(" Hit enemy hp :%d    \n", enemy3.hp);
-									//enemy3.SetPositionBounce(40.0);
+									if (player.faceRight == true)	enemy3.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy3.SetPositionBounce(-20.0);
 									//hurt//
 									enemy3.hurt = true;
 									////////
@@ -1496,6 +1635,9 @@ int main()
 
 						flag.setDestroy(true);
 						printf(" Hit the flag !!\n");
+						scoreCount += 300;
+
+						FlagSound.play();
 						//state = 2;
 						state = 2;//endgame
 						goto jumperState;
@@ -1513,7 +1655,8 @@ int main()
 						//printf("Bullet Destroy!!\n");
 						bullet.setDestroy(true);
 						enemy1.setHp(bullet.GetDmg());
-						//enemy1.SetPositionBounce(40.0);
+						if (player.faceRight == true)	enemy1.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy1.SetPositionBounce(-20.0);
 						//enemy1.bound.setFillColor(sf::Color::Red);
 						printf(" Hit Gun enemy hp : %d  \n", enemy1.hp);
 						hurtSound.play();
@@ -1583,7 +1726,9 @@ int main()
 						////////
 						bullet.setDestroy(true);
 						enemy2.setHp(bullet.GetDmg());
-						//enemy2.SetPositionBounce(40.0);
+
+						if (player.faceRight == true)	enemy2.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy2.SetPositionBounce(-20.0);
 						hurtSound.play();
 						printf(" Hit Gun enemy hp : %d  \n", enemy2.hp);
 					}
@@ -1646,7 +1791,8 @@ int main()
 						////////
 						bullet.setDestroy(true);
 						enemy3.setHp(bullet.GetDmg());
-						//enemy3.SetPositionBounce(40.0);
+						if (player.faceRight == true)	enemy3.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy3.SetPositionBounce(-20.0);
 						printf(" Hit Gun enemy hp : %d  \n", enemy3.hp);
 						hurtSound.play();
 					}
@@ -1886,7 +2032,7 @@ int main()
 				window.draw(BulletCount);
 
 				window.draw(lbltTime);
-
+				
 				//display//
 				window.display();
 			}//while isOpen
@@ -1897,7 +2043,7 @@ int main()
 		//stage 2//
 		if (state == 2)
 		{
-
+			potionSound.play();
 		
 
 			///////////////////////////////////////Item/////////////////////////////////
@@ -2278,6 +2424,10 @@ int main()
 					{
 					case sf::Event::KeyReleased:
 						switch (evnt.key.code) {
+						case sf::Keyboard::Equal:
+							state = 88;
+							goto jumperState;
+							break;
 						case sf::Keyboard::Escape:
 							window.close();
 							goto closedWindow;
@@ -2321,7 +2471,7 @@ int main()
 						printf(" Hit the chest !!\n");
 						scoreCount += 3;
 						ammo += rand() % 3 + 3;//[11000 - ]
-						ranChestX = rand() % 11000-player.GetPosition().x;
+						ranChestX = abs(rand() % 11000 - player.GetPosition().x);
 						//float ranChestY = rand() % 300 + 300;
 						player.immortalTime = 10.0f;
 						chest.setSpawn(true);
@@ -2373,7 +2523,7 @@ int main()
 						scoreCount += 2;
 						hpPotion.setSpawn(true);
 						//potionSpawn = 1;
-						ranHpX = rand() % 11000 - player.GetPosition().x;
+						ranHpX = abs(rand() % 11000 - player.GetPosition().x);
 						if (player.hpPlayer < 3)
 						{
 							int randompotion;
@@ -2433,6 +2583,8 @@ int main()
 
 						flag.setDestroy(true);
 						printf(" Hit the flag !!\n");
+						FlagSound.play();
+						scoreCount += 300;
 						state = 3;
 						goto jumperState;
 					}
@@ -2533,6 +2685,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						enemy1.hurt = true;
+						if (player.faceRight == true)	enemy1.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy1.SetPositionBounce(-20.0);
 						////////
 						//printf("Bullet Destroy!!\n");
 						bullet.setDestroy(true);
@@ -2626,6 +2780,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						enemy2.hurt = true;
+						if (player.faceRight == true)	enemy2.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy2.SetPositionBounce(-20.0);
 						////////
 						bullet.setDestroy(true);
 						enemy2.setHp(bullet.GetDmg());
@@ -2772,6 +2928,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -2807,6 +2964,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -2869,6 +3027,8 @@ int main()
 									//std::cout << "Hit" << std::endl;
 									scoreCount += 10;
 									enemy1.hp--;
+									if (player.faceRight == true)	enemy1.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy1.SetPositionBounce(-20.0);
 									printf(" Hit enemy hp :%d    \n", enemy1.hp);
 
 									if (enemy1.hp <= 0)
@@ -2898,6 +3058,8 @@ int main()
 									//std::cout << "Hit" << std::endl;
 									scoreCount += 10;
 									enemy2.hp--;
+									if (player.faceRight == true)	enemy2.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy2.SetPositionBounce(-20.0);
 									printf(" Hit enemy hp :%d    \n", enemy2.hp);
 
 									if (enemy2.hp <= 0)
@@ -3183,7 +3345,7 @@ int main()
 		}//if (state ==3)
 		if (state == 3)
 		{
-
+			potionSound.play();
 			/********************************** Princess ********************************/
 
 			sf::Texture Princess_Texture;
@@ -3632,6 +3794,10 @@ int main()
 					{
 					case sf::Event::KeyReleased:
 						switch (evnt.key.code) {
+						case sf::Keyboard::Equal:
+							state = 88;
+							goto jumperState;
+							break;
 						case sf::Keyboard::Escape:
 							window.close();
 							goto closedWindow;
@@ -3675,7 +3841,7 @@ int main()
 						printf(" Hit the chest !!\n");
 						scoreCount += 3;
 						ammo += rand() % 3 + 3;
-						ranChestX = rand() % 11000 - player.GetPosition().x;
+						ranChestX = abs(rand() % 11000 - player.GetPosition().x);
 						
 						player.immortalTime = 10.0f;
 						chest.setSpawn(true);
@@ -3726,7 +3892,7 @@ int main()
 						printf(" Hit the Potion !!\n");
 						scoreCount += 2;
 						hpPotion.setSpawn(true);
-						ranHpX = rand() % 11000 - player.GetPosition().x;
+						ranHpX = abs(rand() % 11000 - player.GetPosition().x);
 						//potionSpawn = 1;
 						if (player.hpPlayer < 3)
 						{
@@ -3911,6 +4077,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						enemy1.hurt = true;
+						if (player.faceRight == true)	enemy1.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy1.SetPositionBounce(-20.0);
 						////////
 						//printf("Bullet Destroy!!\n");
 						bullet.setDestroy(true);
@@ -4004,6 +4172,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						enemy2.hurt = true;
+						if (player.faceRight == true)	enemy2.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy2.SetPositionBounce(-20.0);
 						////////
 						bullet.setDestroy(true);
 						enemy2.setHp(bullet.GetDmg());
@@ -4064,6 +4234,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						enemy3.hurt = true;
+						if (player.faceRight == true)	enemy3.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy3.SetPositionBounce(-20.0);
 						////////
 						bullet.setDestroy(true);
 						enemy3.setHp(bullet.GetDmg());
@@ -4124,6 +4296,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						enemy4.hurt = true;
+						if (player.faceRight == true)	enemy4.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	enemy4.SetPositionBounce(-20.0);
 						////////
 						bullet.setDestroy(true);
 						enemy4.setHp(bullet.GetDmg());
@@ -4186,6 +4360,8 @@ int main()
 						//Hurt//
 						hurtSound.play();
 						boss.hurt = true;
+						if (player.faceRight == true)	boss.SetPositionBounce(20.0);
+						else if (player.faceRight == false)	boss.SetPositionBounce(-20.0);
 						////////
 						bullet.setDestroy(true);
 						boss.setHp(bullet.GetDmg());
@@ -4379,6 +4555,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -4414,6 +4591,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -4450,6 +4628,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -4487,6 +4666,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -4523,6 +4703,7 @@ int main()
 					player.immortalTime = 1.0f;
 					if (player.immortal == false)
 					{
+						crashSound.play();
 						/*player.hpLock = 1;*/
 						player.hpPlayer--;
 						player.immortal = true;
@@ -4577,6 +4758,8 @@ int main()
 									//Hurt//
 									hurtSound.play();
 									enemy1.hurt = true;
+									if (player.faceRight == true)	enemy1.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy1.SetPositionBounce(-20.0);
 									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
@@ -4606,6 +4789,8 @@ int main()
 									//Hurt//
 									hurtSound.play();
 									enemy2.hurt = true;
+									if (player.faceRight == true)	enemy2.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy2.SetPositionBounce(-20.0);
 									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
@@ -4637,6 +4822,8 @@ int main()
 									//Hurt//
 									hurtSound.play();
 									enemy3.hurt = true;
+									if (player.faceRight == true)	enemy3.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy3.SetPositionBounce(-20.0);
 									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
@@ -4667,6 +4854,8 @@ int main()
 									//Hurt//
 									hurtSound.play();
 									enemy4.hurt = true;
+									if (player.faceRight == true)	enemy4.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	enemy4.SetPositionBounce(-20.0);
 									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
@@ -4697,6 +4886,8 @@ int main()
 									//Hurt//
 									hurtSound.play();
 									boss.hurt = true;
+									if (player.faceRight == true)	boss.SetPositionBounce(20.0);
+									else if (player.faceRight == false)	boss.SetPositionBounce(-20.0);
 									////////
 									//player.attackState = 1;
 									player.velocity.x = 0;
@@ -5127,6 +5318,27 @@ int main()
 			backgroundRestart.scale(0.09, 0.09);
 			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f );
 
+			//////////////////////////score Text////////////////////
+
+			sf::Text scoreText;
+			sf::Text scoreString;
+
+			scoreText.setPosition(360 - 137, 250+10);
+			scoreText.setFillColor(sf::Color::Red);
+			scoreText.setFont(font);
+			scoreText.setString("Your score");
+			scoreText.setOutlineThickness(5.f);
+			//scoreText.setOutlineColor(sf::Color::White);
+			scoreText.setCharacterSize(50);
+
+			scoreString.setPosition(360-15 ,320+10);//scoreString.setPosition(360 -50 ,300);
+			scoreString.setFillColor(sf::Color::Red);
+			scoreString.setFont(font);
+			scoreString.setString(std::to_string(scoreCount));
+			scoreString.setOutlineThickness(5.f);
+			//scoreString.setOutlineColor(sf::Color::White);
+			scoreString.setCharacterSize(50);
+			scoreString.setOrigin(scoreString.getLocalBounds().width / 2, scoreString.getLocalBounds().height / 2);
 			//sound 
 			died.play();
 			BGSound.stop();
@@ -5144,6 +5356,7 @@ int main()
 							goto closedWindow;
 							break;
 
+					
 						case sf::Keyboard::W:
 							Remenu.MoveUp();
 							break;
@@ -5154,11 +5367,12 @@ int main()
 							switch (Remenu.GetPressedItem()) {
 							case 0:
 								std::cout << "Restart has been preesed" << std::endl;
-								state = 2;
+								state = 1;
 								checkRestart = true;
 								break;
 							case 1:
-								window.close();
+								state = 99;
+								goto jumperState;
 								break;
 
 							}
@@ -5181,6 +5395,8 @@ int main()
 				window.draw(backgroundRestart);
 				//Background1.Draw(window);
 				Remenu.draw(window);
+				window.draw(scoreText);
+				window.draw(scoreString);
 				window.display();
 				//Restart 
 				if (checkRestart == true)
@@ -5208,21 +5424,19 @@ int main()
 			view.setCenter(VIEW_WIDTH / 1.5f, VIEW_HEIGHT / 2.f);
 
 			//sound 
-			
-			
-		
 			//////////////////////////score Text////////////////////
 
 			sf::Text scoreText;
 			sf::Text scoreString;
 			
-			scoreString.setPosition(420-188, 552+2);
+			scoreString.setPosition(420-80, 552+2);
 			scoreString.setFillColor(sf::Color::Red);
 			scoreString.setFont(font);
 			scoreString.setString(std::to_string(scoreCount));
 			scoreString.setOutlineThickness(5.f);
 			scoreString.setOutlineColor(sf::Color::White);
 			scoreString.setCharacterSize(72);
+			scoreString.setOrigin(scoreString.getLocalBounds().width / 2, scoreString.getLocalBounds().height / 2);
 
 			//background//
 			sf::Texture EndScene_Texture;
@@ -5237,12 +5451,13 @@ int main()
 
 			Player_Name.setFont(font);
 			Player_Name.setCharacterSize(50);
-			Player_Name.setFillColor(sf::Color::Red);
+			Player_Name.setFillColor(sf::Color::White);
 			Player_Name.setOrigin(Player_Name.getLocalBounds().width / 2, Player_Name.getLocalBounds().height / 2);
-			Player_Name.setOutlineThickness(5.f);
-			Player_Name.setOutlineColor(sf::Color::White);
+			Player_Name.setOutlineThickness(3.f);
+			Player_Name.setOutlineColor(sf::Color::Black);
+			
 			//Player_Name.setPosition(sf::Vector2f(1080 / 2 - 400, 720 / (MAX_ITEMS + 1) * 2 - 400));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
-			Player_Name.setPosition(sf::Vector2f(385-188,310+2));
+			Player_Name.setPosition(sf::Vector2f(385-188,310+2-10));
 			
 			//Player Score
 			Player_Score.setFont(font);
@@ -5251,10 +5466,10 @@ int main()
 
 			Player_Score.setOrigin(Player_Score.getLocalBounds().width / 2, Player_Score.getLocalBounds().height / 2);
 
-			Player_Score.setPosition(sf::Vector2f(1080 / 2 + 200, 720 / (MAX_ITEMS + 1) * 2 - 400+109+2));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
+			Player_Score.setPosition(sf::Vector2f(540, 720 / (MAX_ITEMS + 1) * 2 - 400+109+2));//Remenu[0].setPosition(sf::Vector2f(width/2-200,height/(MAX_ITEMS+1)*1 - 100));
 
 			std::string TypeBuffer;
-
+			
 			std::ofstream writeFile;
 			
 			bool checkScoreAlready = false;
@@ -5283,7 +5498,7 @@ int main()
 					}
 					Player_Name.setString(TypeBuffer);
 							
-					//**
+					
 					switch (evnt.type)
 					{
 					case sf::Event::KeyReleased:
@@ -5308,23 +5523,12 @@ int main()
 							break;
 						}
 					}
-					/**/
+					
 					
 					switch (evnt.type)
 					{
 					case sf::Event::KeyReleased:
 						switch (evnt.key.code) {
-						case sf::Keyboard::Right:
-							window.close();
-							goto closedWindow;
-							break;
-
-						case sf::Keyboard::Up:
-							Endmenu.MoveUp();
-							break;
-						case sf::Keyboard::Down:
-							Endmenu.MoveDown();
-							break;
 						case sf::Keyboard::Return:
 							switch (Endmenu.GetPressedItem()) {
 							case 0:
@@ -5349,24 +5553,8 @@ int main()
 					}
 					
 
-				}
-				//
-				//if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) && checkScoreAlready == false)
-				//{
-				//	//Saves player name & score, load high score
-				//	writeFile.open("highscores/score.txt", std::ios::app);
-				//	writeFile
-				//		<< "\n" // get a new line
-				//		<< scoreCount // write score to file
-				//		<< " " // space
-				//		<< TypeBuffer; // player name
-				//	std::cout<<"Score and Name write ";
-
-				//	writeFile.close();
-				//	checkScoreAlready = true;
-				//	break;
-				//}
-
+				 }
+			
 				window.clear();
 
 				////////////////////////////////////////////////setview (must follow Update)////////////////////////////////////////////////
@@ -5419,7 +5607,7 @@ int main()
 								switch (menu.GetPressedItem()) {
 								case 0:
 									std::cout << "Play *9999 has been preesed" << std::endl;
-									state = 1;
+									state = 101;
 								
 									goto jumperState;
 									break;
@@ -5452,6 +5640,7 @@ int main()
 					window.setView(view);
 					window.draw(background);
 					menu.draw(window);
+					window.draw(name_Chakkapat);
 
 					window.display();
 					

@@ -48,18 +48,18 @@ void enemy::Update(float deltaTime)
 	velocity.y += 981.0f * deltaTime;
 	//velocity.x += speed;
 	enycl = cl.getElapsedTime().asSeconds();
-
-	if (enycl <= 3.0f)
+	//3 6 9
+	if (enycl <= 1.5f)
 	{
 		velocity.x += speed * 0.5;
 	}
-	else if (enycl <= 6.0f && enycl >= 3.0f)
+	else if (enycl <= 2.0f && enycl >= 1.5f)
 	{
 		velocity.x = 0;
 
 	}
 
-	else if (enycl <= 9.0f && enycl >= 6.0f)
+	else if (enycl <= 3.5f && enycl >= 2.0f)
 	{
 		velocity.x -= speed * 0.5;
 		enycl = 0.0f;

@@ -40,19 +40,19 @@ void Boss::Update(float deltaTime)
 	//velocity.x += speed;
 	enycl = cl.getElapsedTime().asSeconds();
 	//3 6 9
-	if (enycl <= 2.0f)
+	if (enycl <= 1.0f)
 	{
-		velocity.x += speed * 0.7;
+		velocity.x += speed * 0.9;
 
 	}
-	else if (enycl <= 4.0f && enycl >= 2.0f)
+	else if (enycl <= 2.0f && enycl >= 1.0f)
 	{
 		velocity.x = 0;
 
 	}
-	else if (enycl <= 6.0f && enycl >= 4.0f)
+	else if (enycl <=3.0f && enycl >= 2.0f)
 	{
-		velocity.x -= speed * 0.7;
+		velocity.x -= speed * 0.9;
 		enycl = 0.0f;
 	}
 	else {
@@ -134,6 +134,12 @@ void Boss::OncollisionEnemy(sf::Vector2f direction)
 sf::Vector2f Boss::SetPosition(sf::Vector2f randPos)
 {
 	body.setPosition(randPos);
+	return body.getPosition();
+}
+
+sf::Vector2f Boss::SetPositionBounce(float moveX)
+{
+	body.setPosition(body.getPosition().x + moveX, body.getPosition().y);
 	return body.getPosition();
 }
 

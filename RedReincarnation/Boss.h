@@ -21,7 +21,7 @@ public:
 	sf::Vector2f SetPosition(sf::Vector2f randPos);
 	Collider GetCollider() { return Collider(body); }
 	Collider GetColliderHitbox() { return Collider(hitbox); }
-
+	sf::Vector2f SetPositionBounce(float move);
 
 	void setHp(int dmg);
 	int GetHp() { return hp; }
